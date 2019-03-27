@@ -1,6 +1,6 @@
 variable "project" {
 	description = ""
-    default = "wide-cargo-233620"
+    default = "devops-235817"
 }
 
 variable "env" {

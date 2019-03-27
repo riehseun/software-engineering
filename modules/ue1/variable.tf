@@ -6,5 +6,6 @@ variable "var_ue1_private_subnet" {}
 variable "network_self_link" {}
 variable "subnetwork1" {}
 variable "ssh_key_private" {
-    value = "${file('~/.ssh/id_rsa')}"
+    description = ""
+    default = "${file('~/.ssh/id_rsa')}"
 }

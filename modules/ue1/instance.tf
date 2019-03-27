@@ -23,27 +23,32 @@ resource "google_compute_instance" "vm1" {
         }
     }
 
-    # provisioner "remote-exec" {
-    #     inline = [
-    #         "yum install python -y"
-    #     ]
+    provisioner "remote-exec" {
+        inline = [
+            "yum install -y https://centos7.iuscommunity.org/ius-release.rpm",
+            "yum update",
+            "yum install -y python36u python36u-libs python36u-devel python36u-pip",
+            "python3.6 -V"
+        ]
 
-    #     connection {
-    #         host        = "${self.ipv4_address}" # The `self` variable is like `this` in many programming languages
-    #         type        = "ssh"                  # in this case, `self` is the resource (the server).
-    #         user        = "root"
-    #         private_key = "${file('~/.ssh/id_rsa')}"
-    #     }
-    # }
+        connection {
+            host        = "${self.network_interface.0.access_config.0.nat_ip}"
+            type        = "ssh"
+            user        = "root"
+            # private_key = "${file("~/.ssh/id_rsa")}"
+            private_key = "${var.ssh_key_private}"
+        }
+    }
 
     provisioner "local-exec" {
         environment {
-            PUBLIC_IP  = "${self.ipv4_address}"
-            PRIVATE_IP = "${self.ipv4_address_private}"
+            PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
+            # PRIVATE_IP = "${self.ipv4_address_private}"
         }
 
-        working_dir = "../../ansible/"
-        command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-master.yaml -i ${self.ipv4_address},"
+        working_dir = "../../../ansible/"
+        command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-master.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
+        # command     = "ansible-playbook -u root --private-key "${file("~/.ssh/id_rsa")}" k8s-master.yaml -i ${self.ipv4_address},"
     }
 }
 
