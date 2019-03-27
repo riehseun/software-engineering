@@ -35,8 +35,8 @@ resource "google_compute_instance" "vm1" {
             host        = "${self.network_interface.0.access_config.0.nat_ip}"
             type        = "ssh"
             user        = "root"
-            # private_key = "${file("~/.ssh/id_rsa")}"
-            private_key = "${var.ssh_key_private}"
+            private_key = "${file("~/.ssh/id_rsa")}"
+            # private_key = "${var.ssh_key_private}"
         }
     }
 
@@ -47,8 +47,8 @@ resource "google_compute_instance" "vm1" {
         }
 
         working_dir = "../../../ansible/"
-        command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-master.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
-        # command     = "ansible-playbook -u root --private-key "${file("~/.ssh/id_rsa")}" k8s-master.yaml -i ${self.ipv4_address},"
+        # command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-master.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
+        command     = "ansible-playbook -u root --private-key "${file("~/.ssh/id_rsa")}" k8s-master.yaml -i ${self.ipv4_address},"
     }
 }
 
