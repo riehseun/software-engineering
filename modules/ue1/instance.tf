@@ -24,6 +24,7 @@ resource "google_compute_instance" "vm1" {
     }
 
     provisioner "remote-exec" {
+        # You cannot open interactive session with "sudo -i". You must also run all yum commands with -y flag
         inline = [
             "sudo yum install ansible -y"
         ]
@@ -41,7 +42,7 @@ resource "google_compute_instance" "vm1" {
             PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
         }
 
-        working_dir = "../../../ansible/"
+        working_dir = "../../ansible/"
         command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-master.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
     }
 }
