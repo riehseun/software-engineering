@@ -1,5 +1,5 @@
 provider "google" {
-    credentials = "${file("../GoogleCloud/credential.json")}"
+    credentials = "${file("../../googlecloud/credential.json")}"
     project     = "${var.project}"
 }
 

@@ -1,5 +1,4 @@
 main/.terraform
-GoogleCloud
 main/terraform.exe
 main/terraform.tfstate
 main/terraform.tfstate.backup
