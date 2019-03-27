@@ -34,7 +34,7 @@ resource "google_compute_instance" "vm1" {
         connection {
             host        = "${self.network_interface.0.access_config.0.nat_ip}"
             type        = "ssh"
-            user        = "root"
+            user        = "${var.ssh_user}"
             private_key = "${file("~/.ssh/id_rsa")}"
             # private_key = "${var.ssh_key_private}"
         }
