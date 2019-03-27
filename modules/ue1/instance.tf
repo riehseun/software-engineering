@@ -25,8 +25,7 @@ resource "google_compute_instance" "vm1" {
 
     provisioner "remote-exec" {
         inline = [
-            "sudo -i",
-            "yum install ansible"
+            "sudo yum install ansible"
         ]
 
         connection {
