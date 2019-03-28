@@ -26,7 +26,7 @@ resource "google_compute_instance" "vm1" {
     provisioner "remote-exec" {
         # You cannot open interactive session with "sudo -i". You must also run all yum commands with -y flag
         inline = [
-            "sudo yum install python -y"
+            "sudo yum install ansible -y"
         ]
 
         connection {
@@ -42,6 +42,7 @@ resource "google_compute_instance" "vm1" {
             PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
         }
 
+        # You must install ansible in the machine where terraform-ansible suites get executed
         # working_dir = "../../ansible/"
         command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa ../../ansible/k8s-master.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
     }
