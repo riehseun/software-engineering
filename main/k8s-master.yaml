@@ -1,0 +1,9 @@
+---
+- name: Kubernetes master installation
+  hosts: Kubernetes
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: Install UFW
+      command: hostnamectl set-hostname 'k8s-master'
