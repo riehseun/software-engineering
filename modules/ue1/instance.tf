@@ -43,7 +43,7 @@ resource "google_compute_instance" "vm1" {
         }
 
         # working_dir = "../../ansible/"
-        command     = "ansible-playbook -u root --private-key ~/.ssh/id_rsa ../../ansible/k8s-master.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
+        command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa ../../ansible/k8s-master.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
     }
 }
 

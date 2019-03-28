@@ -11,5 +11,5 @@ variable "ssh_user" {
 }
 variable "ssh_key_private" {
     description = ""
-    default = "${file('~/.ssh/id_rsa')}"
+    default = "~/.ssh/id_rsa"
 }
