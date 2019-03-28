@@ -26,7 +26,7 @@ resource "google_compute_instance" "vm1" {
     provisioner "remote-exec" {
         # You cannot open interactive session with "sudo -i". You must also run all yum commands with -y flag
         inline = [
-            "sudo yum install ansible -y"
+            "sudo yum install python -y"
         ]
 
         connection {
