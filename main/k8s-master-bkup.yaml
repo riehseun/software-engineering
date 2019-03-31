@@ -1,0 +1,105 @@
+---
+- name: Kubernetes master installation
+  hosts: all # value here is important!
+  remote_user: root
+  become: true
+
+  tasks:
+    - name: Set hostname
+      shell: sudo hostnamectl set-hostname 'k8s-master'
+
+    - name: EX
+      shell: sudo exec bash
+
+    - name: EX
+      shell: sudo setenforce 0
+
+    - name: EX
+      shell: sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+
+    - name: EX
+      shell: sudo firewall-cmd --permanent --add-port=6443/tcp
+
+    - name: EX
+      shell: sudo firewall-cmd --permanent --add-port=2379-2380/tcp
+
+    - name: EX
+      shell: sudo firewall-cmd --permanent --add-port=10250/tcp
+
+    - name: EX
+      shell: sudo firewall-cmd --permanent --add-port=10251/tcp
+
+    - name: EX
+      shell: sudo firewall-cmd --permanent --add-port=10252/tcp
+
+    - name: EX
+      shell: sudo firewall-cmd --permanent --add-port=10255/tcp
+
+    - name: EX
+      shell: sudo firewall-cmd --reload
+
+    - name: EX
+      shell: sudo modprobe br_netfilter
+
+    - name: EX
+      shell: sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+    - name: EX
+      shell: sudo cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+        [kubernetes]
+        name=Kubernetes
+        baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+        enabled=1
+        gpgcheck=1
+        repo_gpgcheck=1
+        gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+        exclude=kube*
+        EOF
+
+    - name: EX
+      shell: sudo yum install kubeadm docker -y
+
+    - name: EX
+      shell: sudo systemctl restart docker
+
+    - name: EX
+      shell: sudo systemctl enable docker
+
+    - name: EX
+      shell: sudo yum install -y kubelet --disableexcludes=kubernetes
+
+    - name: EX
+      shell: sudo yum install -y kubeadm --disableexcludes=kubernetes
+
+    - name: EX
+      shell: sudo yum install -y kubectl --disableexcludes=kubernetes
+
+    - name: EX
+      shell: sudo systemctl restart kubelet
+
+    - name: EX
+      shell: sudo systemctl enable kubelet
+
+    - name: EX
+      shell: sudo kubeadm init
+
+    - name: EX
+      shell: sudo mkdir -p $HOME/.kube
+
+    - name: EX
+      shell: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+    - name: EX
+      shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+    - name: EX
+      shell: sudo export kubever=$(kubectl version | base64 | tr -d '\n')
+
+    - name: EX
+      shell: sudo kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+
+    - name: EX
+      shell: sudo kubectl get nodes
+
+    - name: EX
+      shell: sudo kubectl get pods --all-namespaces
