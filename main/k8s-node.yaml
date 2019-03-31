@@ -1,0 +1,106 @@
+---
+- name: Kubernetes node installation
+  hosts: all # value here is important!
+  become: yes
+  become_user: root
+  become_method: su
+
+  tasks:
+    - name: Set hostname
+      shell: hostnamectl set-hostname 'k8s-node'
+
+    - name: EX
+      shell: exec bash
+
+    - name: EX
+      shell: setenforce 0
+
+    - name: EX
+      shell: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+
+    - name: EX
+      shell: firewall-cmd --permanent --add-port=6443/tcp
+
+    - name: EX
+      shell: firewall-cmd --permanent --add-port=2379-2380/tcp
+
+    - name: EX
+      shell: firewall-cmd --permanent --add-port=10250/tcp
+
+    - name: EX
+      shell: firewall-cmd --permanent --add-port=10251/tcp
+
+    - name: EX
+      shell: firewall-cmd --permanent --add-port=10252/tcp
+
+    - name: EX
+      shell: firewall-cmd --permanent --add-port=10255/tcp
+
+    - name: EX
+      shell: firewall-cmd --reload
+
+    - name: EX
+      shell: modprobe br_netfilter
+
+    - name: EX
+      shell: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+    - name: EX
+      shell: cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+        [kubernetes]
+        name=Kubernetes
+        baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+        enabled=1
+        gpgcheck=1
+        repo_gpgcheck=1
+        gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+        exclude=kube*
+        EOF
+
+    - name: EX
+      shell: yum install kubeadm docker -y
+
+    - name: EX
+      shell: systemctl restart docker
+
+    - name: EX
+      shell: systemctl enable docker-
+
+    - name: EX
+      shell: yum install -y kubelet --disableexcludes=kubernetes
+
+    - name: EX
+      shell: yum install -y kubeadm --disableexcludes=kubernetes
+
+    - name: EX
+      shell: yum install -y kubectl --disableexcludes=kubernetes
+
+    - name: EX
+      shell: systemctl restart kubelet
+
+    - name: EX
+      shell: systemctl enable kubelet
+
+    - name: EX
+      shell: kubeadm init
+
+    - name: EX
+      shell: mkdir -p $HOME/.kube
+
+    - name: EX
+      shell: cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+    - name: EX
+      shell: chown $(id -u):$(id -g) $HOME/.kube/config
+
+    - name: EX
+      shell: export kubever=$(kubectl version | base64 | tr -d '\n')
+
+    - name: EX
+      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+
+    - name: EX
+      shell: kubectl get nodes
+
+    - name: EX
+      shell: kubectl get pods --all-namespaces
