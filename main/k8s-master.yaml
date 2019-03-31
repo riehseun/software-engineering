@@ -1,5 +1,6 @@
 ---
 - name: Kubernetes master installation
+  hosts: k8s-master
   remote_user: root
   become: true
 
