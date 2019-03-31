@@ -1,51 +1,51 @@
 ---
 - name: Kubernetes master installation
-  hosts: all
-  remote_user: root
+  hosts: all # value here is important!
+  remote_user: Rieh
   become: true
 
   tasks:
     - name: Set hostname
-      shell: hostnamectl set-hostname 'k8s-master'
+      shell: sudo hostnamectl set-hostname 'k8s-master'
 
     - name: EX
-      shell: exec bash
+      shell: sudo exec bash
 
     - name: EX
-      shell: setenforce 0
+      shell: sudo setenforce 0
 
     - name: EX
-      shell: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+      shell: sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
     - name: EX
-      shell: firewall-cmd --permanent --add-port=6443/tcp
+      shell: sudo firewall-cmd --permanent --add-port=6443/tcp
 
     - name: EX
-      shell: firewall-cmd --permanent --add-port=2379-2380/tcp
+      shell: sudo firewall-cmd --permanent --add-port=2379-2380/tcp
 
     - name: EX
-      shell: firewall-cmd --permanent --add-port=10250/tcp
+      shell: sudo firewall-cmd --permanent --add-port=10250/tcp
 
     - name: EX
-      shell: firewall-cmd --permanent --add-port=10251/tcp
+      shell: sudo firewall-cmd --permanent --add-port=10251/tcp
 
     - name: EX
-      shell: firewall-cmd --permanent --add-port=10252/tcp
+      shell: sudo firewall-cmd --permanent --add-port=10252/tcp
 
     - name: EX
-      shell: firewall-cmd --permanent --add-port=10255/tcp
+      shell: sudo firewall-cmd --permanent --add-port=10255/tcp
 
     - name: EX
-      shell: firewall-cmd --reload
+      shell: sudo firewall-cmd --reload
 
     - name: EX
-      shell: modprobe br_netfilter
+      shell: sudo modprobe br_netfilter
 
     - name: EX
-      shell: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+      shell: sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
     - name: EX
-      shell: cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+      shell: sudo cat <<EOF > /etc/yum.repos.d/kubernetes.repo
         [kubernetes]
         name=Kubernetes
         baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
@@ -57,49 +57,49 @@
         EOF
 
     - name: EX
-      shell: yum install kubeadm docker -y
+      shell: sudo yum install kubeadm docker -y
 
     - name: EX
-      shell: systemctl restart docker
+      shell: sudo systemctl restart docker
 
     - name: EX
-      shell: systemctl enable docker
+      shell: sudo systemctl enable docker
 
     - name: EX
-      shell: yum install -y kubelet --disableexcludes=kubernetes
+      shell: sudo yum install -y kubelet --disableexcludes=kubernetes
 
     - name: EX
-      shell: yum install -y kubeadm --disableexcludes=kubernetes
+      shell: sudo yum install -y kubeadm --disableexcludes=kubernetes
 
     - name: EX
-      shell: yum install -y kubectl --disableexcludes=kubernetes
+      shell: sudo yum install -y kubectl --disableexcludes=kubernetes
 
     - name: EX
-      shell: systemctl restart kubelet
+      shell: sudo systemctl restart kubelet
 
     - name: EX
-      shell: systemctl enable kubelet
+      shell: sudo systemctl enable kubelet
 
     - name: EX
-      shell: kubeadm init
+      shell: sudo kubeadm init
 
     - name: EX
-      shell: mkdir -p $HOME/.kube
+      shell: sudo mkdir -p $HOME/.kube
 
     - name: EX
-      shell: cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+      shell: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
     - name: EX
-      shell: chown $(id -u):$(id -g) $HOME/.kube/config
+      shell: sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
     - name: EX
-      shell: export kubever=$(kubectl version | base64 | tr -d '\n')
+      shell: sudo export kubever=$(kubectl version | base64 | tr -d '\n')
 
     - name: EX
-      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+      shell: sudo kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
 
     - name: EX
-      shell: kubectl get nodes
+      shell: sudo kubectl get nodes
 
     - name: EX
-      shell: kubectl get pods --all-namespaces
+      shell: sudo kubectl get pods --all-namespaces
