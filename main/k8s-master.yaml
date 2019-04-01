@@ -7,7 +7,7 @@
 
   tasks:
     - name: set hostname of k8s-master
-      shell: hostnamectl set-hostname 'k8s-master'
+      shell: hostnamectl set-hostname {{ HOSTNAME }}
 
     - name: exec bash
       shell: exec bash

@@ -40,6 +40,7 @@ resource "google_compute_instance" "vm1" {
     provisioner "local-exec" {
         environment {
             PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
+            HOSTNAME = "k8s-master"
             ANSIBLE_HOST_KEY_CHECKING = false # This is must to avoid the error "The authenticity of host can't be established"
         }
 

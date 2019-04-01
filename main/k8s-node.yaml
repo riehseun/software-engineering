@@ -6,106 +6,72 @@
   become_method: sudo
 
   tasks:
-    - name: Set hostname
+    - name: set hostname of k8s-node
       shell: hostnamectl set-hostname 'k8s-node'
 
-    - name: EX
-      shell: exec bash
-
-    - name: EX
+    - name: setenforce 0
       shell: setenforce 0
 
-    - name: EX
+    - name: disable selinux
       shell: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
-    - name: EX
-      shell: firewall-cmd --permanent --add-port=6443/tcp
-
-    - name: EX
-      shell: firewall-cmd --permanent --add-port=2379-2380/tcp
-
-    - name: EX
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=10250/tcp
 
-    - name: EX
-      shell: firewall-cmd --permanent --add-port=10251/tcp
-
-    - name: EX
-      shell: firewall-cmd --permanent --add-port=10252/tcp
-
-    - name: EX
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=10255/tcp
 
-    - name: EX
+    - name: set firewall rule
+      shell: firewall-cmd --permanent --add-port=30000-32767/tcp
+
+    - name: set firewall rule
+      shell: firewall-cmd --permanent --add-port=6783/tcp
+
+    - name: reload firewall rule
       shell: firewall-cmd --reload
 
-    - name: EX
-      shell: modprobe br_netfilter
-
-    - name: EX
+    - name: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
       shell: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
-    - name: Transfer the script
-      copy: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
+    - name: add k8s to yum reo
+      shell:
+        cmd: |
+            cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+            [kubernetes]
+            name=Kubernetes
+            baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+            enabled=1
+            gpgcheck=1
+            repo_gpgcheck=1
+            gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+            EOF
 
-    - name: Execute the script
-      command: sh /home/Rieh/add-k8s-to-yum.sh
+    - name: install docker
+      shell: yum install docker -y
 
-      shell: cat <<EOF > /etc/yum.repos.d/kubernetes.repo
-        [kubernetes]
-        name=Kubernetes
-        baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-        enabled=1
-        gpgcheck=1
-        repo_gpgcheck=1
-        gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-        exclude=kube*
-        EOF
-
-    - name: EX
-      shell: yum install kubeadm docker -y
-
-    - name: EX
+    - name: restart docker
       shell: systemctl restart docker
 
-    - name: EX
-      shell: systemctl enable docker-
+    - name: enable docker
+      shell: systemctl enable docker
 
-    - name: EX
-      shell: yum install -y kubelet --disableexcludes=kubernetes
+    - name: install kubeadm
+      shell: yum install kubeadm -y
 
-    - name: EX
-      shell: yum install -y kubeadm --disableexcludes=kubernetes
+    - name: install kubectl
+      shell: yum install kubectl -y
 
-    - name: EX
-      shell: yum install -y kubectl --disableexcludes=kubernetes
+    - name: install kubelet
+      shell: yum install kubelet -y
 
-    - name: EX
+    - name: restart kubelet
       shell: systemctl restart kubelet
 
-    - name: EX
+    - name: enable kubelet
       shell: systemctl enable kubelet
 
-    - name: EX
-      shell: kubeadm init
+    - name: enable docker.service
+      shell: systemctl enable docker.service
 
-    - name: EX
-      shell: mkdir -p $HOME/.kube
-
-    - name: EX
-      shell: cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-
-    - name: EX
-      shell: chown $(id -u):$(id -g) $HOME/.kube/config
-
-    - name: EX
-      shell: export kubever=$(kubectl version | base64 | tr -d '\n')
-
-    - name: EX
-      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
-
-    - name: EX
-      shell: kubectl get nodes
-
-    - name: EX
-      shell: kubectl get pods --all-namespaces
+    - name: start docker.service
+      shell: systemctl start docker.service
