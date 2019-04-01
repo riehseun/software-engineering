@@ -101,21 +101,15 @@
     - name: deploy network
       shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version={{kube_ver.stdout}}"
 
-    # - name: Make vars persistant
-    #   set_fact:
-    #     aws_region: echo {{ lookup('env', 'PUBLIC_IP') }}
-    #     aws_state: kubeadm token list | cut -d " " -f1 | tail -n -1
+    - name: Make vars persistant
+      set_fact:
+        k8s_master_ip: echo {{ lookup('env', 'PUBLIC_IP') }}
+        k8s_token: kubeadm token list | cut -d " " -f1 | tail -n -1
 
-    - name: record ip address of k8s-master
-      shell: echo {{ lookup('env', 'PUBLIC_IP') }}
-      regitser: k8s_master_ip
+    # - name: record ip address of k8s-master
+    #   shell: echo {{ lookup('env', 'PUBLIC_IP') }}
+    #   regitser: k8s_master_ip
 
-    - name: record k8s token
-      shell: kubeadm token list | cut -d " " -f1 | tail -n -1
-      regitser: k8s_token
-
-    # - name: get nodes
-    #   shell: kubectl get nodes
-
-    # - name: get pods
-    #   shell: kubectl get pods --all-namespaces
+    # - name: record k8s token
+    #   shell: kubeadm token list | cut -d " " -f1 | tail -n -1
+    #   regitser: k8s_token
