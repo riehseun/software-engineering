@@ -108,7 +108,7 @@
       register: kube_ver
 
     - debug:
-        var: "{{ kube_ver.stdout }}"
+        var: "kube_ver.stdout"
 
     - name: Echo my_env_var
       shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kube_ver_env"
