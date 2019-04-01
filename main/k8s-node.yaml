@@ -45,7 +45,12 @@
     - name: EX
       shell: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
-    - name: EX
+    - name: Transfer the script
+      copy: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
+
+    - name: Execute the script
+      command: sh /home/Rieh/add-k8s-to-yum.sh
+
       shell: cat <<EOF > /etc/yum.repos.d/kubernetes.repo
         [kubernetes]
         name=Kubernetes
