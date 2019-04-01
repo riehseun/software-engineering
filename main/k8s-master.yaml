@@ -103,15 +103,11 @@
 
     - name: record ip address of k8s-master
       shell: echo {{ lookup('env', 'PUBLIC_IP') }}
-      regitser: k8s-master-ip
-
-    - name: record ip address of k8s-master
-      shell: echo {{ lookup('env', 'PUBLIC_IP') }}
-      regitser: k8s-master-ip
+      regitser: k8s_master_ip
 
     - name: record k8s token
       shell: kubeadm token list | cut -d " " -f1 | tail -n -1
-      regitser: k8s-token
+      regitser: k8s_token
 
     # - name: get nodes
     #   shell: kubectl get nodes
