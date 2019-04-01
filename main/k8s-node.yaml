@@ -1,6 +1,6 @@
 ---
 - name: Kubernetes node installation
-  hosts: localhost # value here is important!
+  hosts: all # value here is important!
   become: yes
   become_user: root
   become_method: sudo
