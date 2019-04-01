@@ -103,21 +103,14 @@
     - name: chown $(id -u):$(id -g) $HOME/.kube/config
       shell: chown $(id -u):$(id -g) $HOME/.kube/config
 
-    - name: Echo my_env_var
-      shell: "echo $MY_ENV_VARIABLE"
-      environment:
-        MY_ENV_VARIABLE: whatever_value
-
-    - name: Echo my_env_var again
-      shell: "echo $MY_ENV_VARIABLE"
-
     - name: set kube version as environment variable
-      shell: "echo $KUBE_VER"
-      environment:
-        KUBE_VER: kubectl version | base64 | tr -d '\n'
+      shell: kubectl version | base64 | tr -d '\n'
+      register: kube_ver
 
-    - name: EX
-      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$KUBE_VER"
+    - name: Echo my_env_var
+      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kube_ver_env"
+      environment:
+        kube_ver_env: kube_ver.stdout
 
     - name: EX
       shell: kubectl get nodes
