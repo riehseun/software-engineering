@@ -1,6 +1,6 @@
 ---
 - name: Kubernetes node installation
-  hosts: all # value here is important!
+  hosts: localhost # value here is important!
   become: yes
   become_user: root
   become_method: sudo
@@ -82,18 +82,18 @@
     - name: start docker.service
       shell: systemctl start docker.service
 
-    - debug: var=k8s_master_ip
-      when: k8s_master_ip is defined
+    # - debug: var=k8s_master_ip
+    #   when: k8s_master_ip is defined
 
-    - debug: var=hostvars['all']['k8s_master_ip']
-      when: hostvars['all']['k8s_master_ip'] is defined
+    # - debug: var=hostvars['all']['k8s_master_ip']
+    #   when: hostvars['all']['k8s_master_ip'] is defined
 
-    - debug: var=k8s_token
-      when: k8s_token is defined
+    # - debug: var=k8s_token
+    #   when: k8s_token is defined
 
-    - debug: var=hostvars['all']['k8s_token']
-      when: hostvars['all']['k8s_token'] is defined
+    # - debug: var=hostvars['all']['k8s_token']
+    #   when: hostvars['all']['k8s_token'] is defined
 
     - name: join this k8s-node to k8s-master
       # shell: kubeadm join --token {{ k8s_token }} --discovery-token-unsafe-skip-ca-verification {{ k8s_master_ip }}:6443
-      shell: kubeadm join --token {{ hostvars['all']['k8s_token'] }} --discovery-token-unsafe-skip-ca-verification {{ hostvars['all']['k8s_master_ip'] }}:6443
+      shell: kubeadm join --token {{ hostvars['localhost']['k8s_token'] }} --discovery-token-unsafe-skip-ca-verification {{ hostvars['localhost']['k8s_master_ip'] }}:6443

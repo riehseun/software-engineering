@@ -1,6 +1,6 @@
 ---
 - name: Kubernetes master installation
-  hosts: all # value here is important!
+  hosts: localhost # value here is important!
   become: yes
   become_user: root
   become_method: sudo
@@ -100,6 +100,11 @@
 
     - name: deploy network
       shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version={{kube_ver.stdout}}"
+
+    - name: Make vars persistant
+      set_fact:
+        aws_region: echo {{ lookup('env', 'PUBLIC_IP') }}
+        aws_state: kubeadm token list | cut -d " " -f1 | tail -n -1
 
     - name: record ip address of k8s-master
       shell: echo {{ lookup('env', 'PUBLIC_IP') }}
