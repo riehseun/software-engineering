@@ -40,10 +40,10 @@ resource "google_compute_instance" "vm1" {
     provisioner "local-exec" {
         environment {
             PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
-            ANSIBLE_HOST_KEY_CHECKING = false
+            ANSIBLE_HOST_KEY_CHECKING = false # This is must to avoid the error "The authenticity of host can't be established"
         }
 
-        # You must install ansible in the machine where terraform-ansible suites get executed
+        # You must install "ansible" on the machine where terraform-ansible suites get executed
         # working_dir = "../../ansible/"
         command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa k8s-master.yaml -i $PUBLIC_IP,"
     }

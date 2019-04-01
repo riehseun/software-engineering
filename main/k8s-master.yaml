@@ -51,8 +51,8 @@
     - name: sh /home/Rieh/add-k8s-to-yum.sh
       command: sh /home/Rieh/add-k8s-to-yum.sh
 
-    - name: yum install kubeadm docker -y
-      shell: yum install kubeadm docker -y
+    - name: yum install docker -y
+      shell: yum install docker -y
 
     - name: systemctl restart docker
       shell: systemctl restart docker
@@ -60,13 +60,34 @@
     - name: systemctl enable docker
       shell: systemctl enable docker
 
-    - name: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-      shell: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+    # - name: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+    #   shell: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
-    - name: EX
+    - name: yum install kubeadm -y
+      shell: yum install kubeadm -y
+
+    - name: systemctl restart kubeadm
+      shell: systemctl restart kubeadm
+
+    - name: systemctl enable kubeadm
+      shell: systemctl enable kubeadm
+
+    - name: yum install kubectl -y
+      shell: yum install kubectl -y
+
+    - name: systemctl restart kubectl
+      shell: systemctl restart kubectl
+
+    - name: systemctl enable kubectl
+      shell: systemctl enable kubectl
+
+    - name: yum install kubelet -y
+      shell: yum install kubelet -y
+
+    - name: systemctl restart kubelet
       shell: systemctl restart kubelet
 
-    - name: EX
+    - name: systemctl enable kubelet
       shell: systemctl enable kubelet
 
     - name: EX
