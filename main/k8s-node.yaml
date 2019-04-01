@@ -7,7 +7,7 @@
 
   tasks:
     - name: set hostname of k8s-node
-      shell: hostnamectl set-hostname 'k8s-node'
+      shell: hostnamectl set-hostname {{ lookup('env', 'HOSTNAME') }}
 
     - name: setenforce 0
       shell: setenforce 0

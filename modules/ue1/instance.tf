@@ -38,6 +38,7 @@ resource "google_compute_instance" "vm1" {
     }
 
     provisioner "local-exec" {
+        # Environment variable can be used inside ansible playbook
         environment {
             PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
             HOSTNAME = "k8s-master"
@@ -45,7 +46,6 @@ resource "google_compute_instance" "vm1" {
         }
 
         # You must install "ansible" on the machine where terraform-ansible suites get executed
-        # working_dir = "../../ansible/"
         command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa k8s-master.yaml -i $PUBLIC_IP,"
     }
 }
@@ -75,31 +75,28 @@ resource "google_compute_instance" "vm2" {
         }
     }
 
-    # provisioner "remote-exec" {
-    #     inline = [
-    #         "sudo -i",
-    #         "yum install -y https://centos7.iuscommunity.org/ius-release.rpm",
-    #         "yum update",
-    #         "yum install -y python36u python36u-libs python36u-devel python36u-pip",
-    #         "python3.6 -V"
-    #     ]
+    provisioner "remote-exec" {
+        inline = [
+            "sudo yum install ansible -y"
+        ]
 
-    #     connection {
-    #         host        = "${self.network_interface.0.access_config.0.nat_ip}"
-    #         type        = "ssh"
-    #         user        = "${var.ssh_user}"
-    #         private_key = "${file("~/.ssh/id_rsa")}"
-    #     }
-    # }
+        connection {
+            host        = "${self.network_interface.0.access_config.0.nat_ip}"
+            type        = "ssh"
+            user        = "${var.ssh_user}"
+            private_key = "${file("~/.ssh/id_rsa")}"
+        }
+    }
 
-    # provisioner "local-exec" {
-    #     environment {
-    #         PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
-    #     }
+    provisioner "local-exec" {
+        environment {
+            PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
+            HOSTNAME = "k8s-node1"
+            ANSIBLE_HOST_KEY_CHECKING = false
+        }
 
-    #     working_dir = "../../../ansible/"
-    #     command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-node.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
-    # }
+        command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa k8s-node.yaml -i $PUBLIC_IP,"
+    }
 }
 
 resource "google_compute_instance" "vm3" {
@@ -127,31 +124,28 @@ resource "google_compute_instance" "vm3" {
         }
     }
 
-    # provisioner "remote-exec" {
-    #     inline = [
-    #         "sudo -i",
-    #         "yum install -y https://centos7.iuscommunity.org/ius-release.rpm",
-    #         "yum update",
-    #         "yum install -y python36u python36u-libs python36u-devel python36u-pip",
-    #         "python3.6 -V"
-    #     ]
+    provisioner "remote-exec" {
+        inline = [
+            "sudo yum install ansible -y"
+        ]
 
-    #     connection {
-    #         host        = "${self.network_interface.0.access_config.0.nat_ip}"
-    #         type        = "ssh"
-    #         user        = "${var.ssh_user}"
-    #         private_key = "${file("~/.ssh/id_rsa")}"
-    #     }
-    # }
+        connection {
+            host        = "${self.network_interface.0.access_config.0.nat_ip}"
+            type        = "ssh"
+            user        = "${var.ssh_user}"
+            private_key = "${file("~/.ssh/id_rsa")}"
+        }
+    }
 
-    # provisioner "local-exec" {
-    #     environment {
-    #         PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
-    #     }
+    provisioner "local-exec" {
+        environment {
+            PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
+            HOSTNAME = "k8s-node2"
+            ANSIBLE_HOST_KEY_CHECKING = false
+        }
 
-    #     working_dir = "../../../ansible/"
-    #     command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-node.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
-    # }
+        command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa k8s-node.yaml -i $PUBLIC_IP,"
+    }
 }
 
 resource "google_compute_instance" "vm4" {
@@ -179,29 +173,26 @@ resource "google_compute_instance" "vm4" {
         }
     }
 
-    # provisioner "remote-exec" {
-    #     inline = [
-    #         "sudo -i",
-    #         "yum install -y https://centos7.iuscommunity.org/ius-release.rpm",
-    #         "yum update",
-    #         "yum install -y python36u python36u-libs python36u-devel python36u-pip",
-    #         "python3.6 -V"
-    #     ]
+    provisioner "remote-exec" {
+        inline = [
+            "sudo yum install ansible -y"
+        ]
 
-    #     connection {
-    #         host        = "${self.network_interface.0.access_config.0.nat_ip}"
-    #         type        = "ssh"
-    #         user        = "${var.ssh_user}"
-    #         private_key = "${file("~/.ssh/id_rsa")}"
-    #     }
-    # }
+        connection {
+            host        = "${self.network_interface.0.access_config.0.nat_ip}"
+            type        = "ssh"
+            user        = "${var.ssh_user}"
+            private_key = "${file("~/.ssh/id_rsa")}"
+        }
+    }
 
-    # provisioner "local-exec" {
-    #     environment {
-    #         PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
-    #     }
+    provisioner "local-exec" {
+        environment {
+            PUBLIC_IP  = "${self.network_interface.0.access_config.0.nat_ip}"
+            HOSTNAME = "k8s-node3"
+            ANSIBLE_HOST_KEY_CHECKING = false
+        }
 
-    #     working_dir = "../../../ansible/"
-    #     command     = "ansible-playbook -u root --private-key ${var.ssh_key_private} k8s-node.yaml -i ${self.network_interface.0.access_config.0.nat_ip},"
-    # }
+        command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa k8s-node.yaml -i $PUBLIC_IP,"
+    }
 }
