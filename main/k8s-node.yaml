@@ -55,7 +55,7 @@
     - name: install docker
       shell: yum install docker -y
 
-    - name: restart docker
+    - name: restart docker=
       shell: systemctl restart docker
 
     - name: enable docker
@@ -82,5 +82,6 @@
     - name: start docker.service
       shell: systemctl start docker.service
 
-    # - name: join this k8s-node to k8s-master
+    - name: join this k8s-node to k8s-master
+      shell: echo {{ lookup('env', 'K8S_MASTER_IP') }}
     #   shell: kubeadm join --token [k8s-master-token] --discovery-token-unsafe-skip-ca-verification [k8s-master-ip]:6443
