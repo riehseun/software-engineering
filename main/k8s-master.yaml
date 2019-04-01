@@ -6,68 +6,62 @@
   become_method: sudo
 
   tasks:
-    - name: Set hostname
+    - name: hostnamectl set-hostname 'k8s-master'
       shell: hostnamectl set-hostname 'k8s-master'
 
-    - name: EX
+    - name: exec bash
       shell: exec bash
 
-    - name: EX
+    - name: setenforce 0
       shell: setenforce 0
 
-    - name: EX
+    - name: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
       shell: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
-    - name: EX
+    - name: firewall-cmd --permanent --add-port=6443/tcp
       shell: firewall-cmd --permanent --add-port=6443/tcp
 
-    - name: EX
+    - name: firewall-cmd --permanent --add-port=2379-2380/tcp
       shell: firewall-cmd --permanent --add-port=2379-2380/tcp
 
-    - name: EX
+    - name: firewall-cmd --permanent --add-port=10250/tcp
       shell: firewall-cmd --permanent --add-port=10250/tcp
 
-    - name: EX
+    - name: firewall-cmd --permanent --add-port=10251/tcp
       shell: firewall-cmd --permanent --add-port=10251/tcp
 
-    - name: EX
+    - name: firewall-cmd --permanent --add-port=10252/tcp
       shell: firewall-cmd --permanent --add-port=10252/tcp
 
-    - name: EX
+    - name: firewall-cmd --permanent --add-port=10255/tcp
       shell: firewall-cmd --permanent --add-port=10255/tcp
 
-    - name: EX
+    - name: firewall-cmd --reload
       shell: firewall-cmd --reload
 
-    - name: EX
+    - name: modprobe br_netfilter
       shell: modprobe br_netfilter
 
-    - name: EX
+    - name: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
       shell: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
-    - name: Transfer the script
+    - name: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
       copy: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
 
-    - name: Execute the script
+    - name: sh /home/Rieh/add-k8s-to-yum.sh
       command: sh /home/Rieh/add-k8s-to-yum.sh
 
-    - name: EX
+    - name: yum install kubeadm docker -y
       shell: yum install kubeadm docker -y
 
-    - name: EX
+    - name: systemctl restart docker
       shell: systemctl restart docker
 
-    - name: EX
+    - name: systemctl enable docker
       shell: systemctl enable docker
 
-    - name: EX
-      shell: yum install -y kubelet --disableexcludes=kubernetes
-
-    - name: EX
-      shell: yum install -y kubeadm --disableexcludes=kubernetes
-
-    - name: EX
-      shell: yum install -y kubectl --disableexcludes=kubernetes
+    - name: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+      shell: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
     - name: EX
       shell: systemctl restart kubelet
