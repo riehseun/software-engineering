@@ -6,7 +6,7 @@
   become_method: sudo
 
   tasks:
-    - name: hostnamectl set-hostname 'k8s-master'
+    - name: set hostname of k8s-master
       shell: hostnamectl set-hostname 'k8s-master'
 
     - name: exec bash
@@ -15,28 +15,28 @@
     - name: setenforce 0
       shell: setenforce 0
 
-    - name: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+    - name: disable selinux
       shell: sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
-    - name: firewall-cmd --permanent --add-port=6443/tcp
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=6443/tcp
 
-    - name: firewall-cmd --permanent --add-port=2379-2380/tcp
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=2379-2380/tcp
 
-    - name: firewall-cmd --permanent --add-port=10250/tcp
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=10250/tcp
 
-    - name: firewall-cmd --permanent --add-port=10251/tcp
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=10251/tcp
 
-    - name: firewall-cmd --permanent --add-port=10252/tcp
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=10252/tcp
 
-    - name: firewall-cmd --permanent --add-port=10255/tcp
+    - name: set firewall rule
       shell: firewall-cmd --permanent --add-port=10255/tcp
 
-    - name: firewall-cmd --reload
+    - name: reload firewall rule
       shell: firewall-cmd --reload
 
     - name: modprobe br_netfilter
@@ -44,12 +44,6 @@
 
     - name: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
       shell: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
-
-    - name: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
-      copy: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
-
-    # - name: sh /home/Rieh/add-k8s-to-yum.sh
-    #   command: sh /home/Rieh/add-k8s-to-yum.sh
 
     - name: add k8s to yum reo
       shell:
@@ -72,9 +66,6 @@
 
     - name: enable docker
       shell: systemctl enable docker
-
-    # - name: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-    #   shell: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
     - name: install kubeadm
       shell: yum install kubeadm -y
@@ -107,16 +98,11 @@
       shell: kubectl version | base64 | tr -d '\n'
       register: kube_ver
 
-    - debug:
-        var: "kube_ver.stdout"
-
-    - name: Echo my_env_var
+    - name: deploy network
       shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version={{kube_ver.stdout}}"
-      # environment:
-      #   kube_ver_env: kube_ver.stdout
 
-    - name: EX
+    - name: get nodes
       shell: kubectl get nodes
 
-    - name: EX
+    - name: get pods
       shell: kubectl get pods --all-namespaces
