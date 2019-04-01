@@ -52,7 +52,7 @@
     #   command: sh /home/Rieh/add-k8s-to-yum.sh
 
     - name: add k8s to yum reo
-    - shell:
+      shell:
         cmd: |
             cat <<EOF > /etc/yum.repos.d/kubernetes.repo
             [kubernetes]
