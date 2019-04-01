@@ -101,8 +101,8 @@
     - name: deploy network
       shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version={{kube_ver.stdout}}"
 
-    - name: get nodes
-      shell: kubectl get nodes
+    # - name: get nodes
+    #   shell: kubectl get nodes
 
-    - name: get pods
-      shell: kubectl get pods --all-namespaces
+    # - name: get pods
+    #   shell: kubectl get pods --all-namespaces
