@@ -93,7 +93,7 @@ resource "google_compute_instance" "vm2" {
             PUBLIC_IP                 = "${self.network_interface.0.access_config.0.nat_ip}"
             HOSTNAME                  = "k8s-node1"
             ANSIBLE_HOST_KEY_CHECKING = false
-            K8S_MASTER_IP             ="${google_compute_instance.vm1.*.network_interface.0.access_config.0.nat_ip}"
+            K8S_MASTER_IP             ="${google_compute_instance.vm1.network_interface.0.access_config.0.nat_ip}"
         }
 
         command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa k8s-node.yaml -i $PUBLIC_IP,"
