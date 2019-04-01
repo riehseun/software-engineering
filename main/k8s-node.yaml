@@ -83,6 +83,4 @@
       shell: systemctl start docker.service
 
     - name: join this k8s-node to k8s-master
-      shell: echo hostvars['all']['k8s-master-ip']
-      # shell: echo {{ lookup('env', 'K8S_MASTER_IP') }}
-    #   shell: kubeadm join --token [k8s-master-token] --discovery-token-unsafe-skip-ca-verification [k8s-master-ip]:6443
+      shell: kubeadm join --token hostvars['all']['k8s-token'] --discovery-token-unsafe-skip-ca-verification hostvars['all']['k8s-master-ip']:6443
