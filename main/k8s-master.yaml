@@ -100,14 +100,16 @@
     - name: copy /etc/kubernetes/admin.conf to $HOME/.kube/config
       shell: cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
-    - name: EX
+    - name: chown $(id -u):$(id -g) $HOME/.kube/config
       shell: chown $(id -u):$(id -g) $HOME/.kube/config
 
-    - name: EX
-      shell: export kubever=$(kubectl version | base64 | tr -d '\n')
+    - name: set kube version as environment variable
+      shell: "echo $KUBE_VER"
+      environment:
+        KUBE_VER: kubectl version | base64 | tr -d '\n'
 
     - name: EX
-      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$KUBE_VER"
 
     - name: EX
       shell: kubectl get nodes
