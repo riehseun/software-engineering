@@ -101,15 +101,33 @@
     - name: deploy network
       shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version={{kube_ver.stdout}}"
 
-    - name: Make vars persistant
-      set_fact:
-        k8s_master_ip: echo {{ lookup('env', 'PUBLIC_IP') }}
-        k8s_token: kubeadm token list | cut -d " " -f1 | tail -n -1
+    - name: record ip address of k8s-master
+      shell: echo {{ lookup('env', 'PUBLIC_IP') }}
+      regitser: K8S_MASTER_IP
 
-    # - name: record ip address of k8s-master
-    #   shell: echo {{ lookup('env', 'PUBLIC_IP') }}
-    #   regitser: k8s_master_ip
+    - name: record k8s token
+      shell: kubeadm token list | cut -d ' ' -f1 | sed -n '2p'
+      register: K8S_TOKEN
 
-    # - name: record k8s token
-    #   shell: kubeadm token list | cut -d " " -f1 | tail -n -1
-    #   regitser: k8s_token
+    - name: record k8s hash
+      shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+      register: K8S_MASTER_CA_HASH
+
+    - name: "add variables to dummy host"
+      add_host:
+        name:   "K8S_TOKEN_HOLDER"
+        token:  "{{ K8S_TOKEN.stdout }}"
+        hash:   "{{ K8S_MASTER_CA_HASH.stdout }}"
+        master_ip: "{{ K8S_MASTER_IP.stdout }}"
+
+    - name: debug k8s master ip
+      debug:
+        msg: "[Master] k8s master ip {{ hostvars['K8S_TOKEN_HOLDER']['master_ip'] }}"
+
+    - name: debug k8s token
+      debug:
+        msg: "[Master] k8s token {{ hostvars['K8S_TOKEN_HOLDER']['token'] }}"
+
+    - name:
+      debug: debug k8s Hash
+        msg: "[Master] k8s hash {{ hostvars['K8S_TOKEN_HOLDER']['hash'] }}"
