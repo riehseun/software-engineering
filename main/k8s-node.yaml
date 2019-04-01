@@ -82,18 +82,18 @@
     - name: start docker.service
       shell: systemctl start docker.service
 
-    # - debug: var=k8s-master-ip
-    #   when: k8s-master-ip is defined
+    - debug: var=k8s_master_ip
+      when: k8s_master_ip is defined
 
-    # - debug: var=hostvars['all']['k8s-master-ip']
-    #   when: hostvars['all']['k8s-master-ip'] is defined
+    - debug: var=hostvars['all']['k8s_master_ip']
+      when: hostvars['all']['k8s_master_ip'] is defined
 
-    # - debug: var=k8s-token
-    #   when: k8s-token is defined
+    - debug: var=k8s_token
+      when: k8s_token is defined
 
-    # - debug: var=hostvars['all']['k8s-token']
-    #   when: hostvars['all']['k8s-token'] is defined
+    - debug: var=hostvars['all']['k8s_token']
+      when: hostvars['all']['k8s_token'] is defined
 
     - name: join this k8s-node to k8s-master
-      shell: kubeadm join --token {{ k8s_token }} --discovery-token-unsafe-skip-ca-verification {{ k8s_master_ip }}:6443
-      # shell: kubeadm join --token {{ hostvars['all']['k8s-token'] }} --discovery-token-unsafe-skip-ca-verification {{ hostvars['all']['k8s-master-ip'] }}:6443
+      # shell: kubeadm join --token {{ k8s_token }} --discovery-token-unsafe-skip-ca-verification {{ k8s_master_ip }}:6443
+      shell: kubeadm join --token {{ hostvars['all']['k8s_token'] }} --discovery-token-unsafe-skip-ca-verification {{ hostvars['all']['k8s_master_ip'] }}:6443
