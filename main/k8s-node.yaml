@@ -82,17 +82,17 @@
     - name: start docker.service
       shell: systemctl start docker.service
 
-    - name: debug k8s master ip
-      debug:
-        msg: "[Master] k8s master ip {{ hostvars['K8S_TOKEN_HOLDER']['master_ip'] }}"
+    # - name: debug k8s master ip
+    #   debug:
+    #     msg: "[Master] k8s master ip {{ hostvars['K8S_TOKEN_HOLDER']['master_ip'] }}"
 
-    - name: debug k8s token
-      debug:
-        msg: "[Master] k8s token {{ hostvars['K8S_TOKEN_HOLDER']['token'] }}"
+    # - name: debug k8s token
+    #   debug:
+    #     msg: "[Master] k8s token {{ hostvars['K8S_TOKEN_HOLDER']['token'] }}"
 
-    - name:
-      debug: debug k8s Hash
-        msg: "[Master] k8s hash {{ hostvars['K8S_TOKEN_HOLDER']['hash'] }}"
+    # - name:
+    #   debug: debug k8s Hash
+    #     msg: "[Master] k8s hash {{ hostvars['K8S_TOKEN_HOLDER']['hash'] }}"
 
     - name: join current k8s-node to k8s-master
       shell: >
