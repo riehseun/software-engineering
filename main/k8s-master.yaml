@@ -103,7 +103,7 @@
 
     - name: record ip address of k8s-master
       shell: echo {{ lookup('env', 'PUBLIC_IP') }}
-      regitser: K8S_MASTER_IP
+      register: K8S_MASTER_IP
 
     - name: record k8s token
       shell: kubeadm token list | cut -d ' ' -f1 | sed -n '2p'
