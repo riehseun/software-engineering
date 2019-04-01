@@ -103,6 +103,14 @@
     - name: chown $(id -u):$(id -g) $HOME/.kube/config
       shell: chown $(id -u):$(id -g) $HOME/.kube/config
 
+    - name: Echo my_env_var
+      shell: "echo $MY_ENV_VARIABLE"
+      environment:
+        MY_ENV_VARIABLE: whatever_value
+
+    - name: Echo my_env_var again
+      shell: "echo $MY_ENV_VARIABLE"
+
     - name: set kube version as environment variable
       shell: "echo $KUBE_VER"
       environment:
