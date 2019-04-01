@@ -107,13 +107,8 @@
       shell: kubectl version | base64 | tr -d '\n'
       register: kube_ver
 
-    - debug:
-        var: "kube_ver.stdout"
-
     - name: Echo my_env_var
-      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kube_ver_env"
-      environment:
-        kube_ver_env: kube_ver.stdout
+      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version={{kube_ver}}"
 
     - name: EX
       shell: kubectl get nodes
