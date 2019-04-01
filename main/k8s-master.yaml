@@ -1,9 +1,7 @@
 ---
 - name: Kubernetes master installation
   hosts: all # value here is important!
-  become: yes
-  become_user: root
-  become_method: su
+  sudo: yes
 
   tasks:
     - name: Set hostname
