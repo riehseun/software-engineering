@@ -48,55 +48,69 @@
     - name: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
       copy: src=add-k8s-to-yum.sh dest=/home/Rieh mode=0777
 
-    - name: sh /home/Rieh/add-k8s-to-yum.sh
-      command: sh /home/Rieh/add-k8s-to-yum.sh
+    # - name: sh /home/Rieh/add-k8s-to-yum.sh
+    #   command: sh /home/Rieh/add-k8s-to-yum.sh
 
-    - name: yum install docker -y
+    - name: add k8s to yum reo
+    - shell:
+        cmd: |
+            cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+            [kubernetes]
+            name=Kubernetes
+            baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+            enabled=1
+            gpgcheck=1
+            repo_gpgcheck=1
+            gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+            exclude=kube*
+            EOF
+
+    - name: install docker
       shell: yum install docker -y
 
-    - name: systemctl restart docker
+    - name: restart docker
       shell: systemctl restart docker
 
-    - name: systemctl enable docker
+    - name: enable docker
       shell: systemctl enable docker
 
     # - name: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
     #   shell: yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
-    - name: yum install kubeadm -y
+    - name: install kubeadm
       shell: yum install kubeadm -y
 
-    - name: systemctl restart kubeadm
+    - name: restart kubeadm
       shell: systemctl restart kubeadm
 
-    - name: systemctl enable kubeadm
+    - name: enable kubeadm
       shell: systemctl enable kubeadm
 
-    - name: yum install kubectl -y
+    - name: install kubectl
       shell: yum install kubectl -y
 
-    - name: systemctl restart kubectl
+    - name: restart kubectl
       shell: systemctl restart kubectl
 
-    - name: systemctl enable kubectl
+    - name: enable kubectl
       shell: systemctl enable kubectl
 
-    - name: yum install kubelet -y
+    - name: install kubelet
       shell: yum install kubelet -y
 
-    - name: systemctl restart kubelet
+    - name: restart kubelet
       shell: systemctl restart kubelet
 
-    - name: systemctl enable kubelet
+    - name: enable kubelet
       shell: systemctl enable kubelet
 
-    - name: EX
+    - name: initialize k8s
       shell: kubeadm init
 
-    - name: EX
+    - name: create .kube file
       shell: mkdir -p $HOME/.kube
 
-    - name: EX
+    - name: copy /etc/kubernetes/admin.conf to $HOME/.kube/config
       shell: cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
     - name: EX
