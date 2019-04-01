@@ -9,6 +9,9 @@
     - name: set hostname of k8s-node
       shell: hostnamectl set-hostname {{ lookup('env', 'HOSTNAME') }}
 
+    - name: exec bash
+      shell: exec bash
+
     - name: setenforce 0
       shell: setenforce 0
 
@@ -29,6 +32,9 @@
 
     - name: reload firewall rule
       shell: firewall-cmd --reload
+
+    - name: modprobe br_netfilter
+      shell: modprobe br_netfilter
 
     - name: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
       shell: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
