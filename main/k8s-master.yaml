@@ -79,20 +79,8 @@
     - name: install kubeadm
       shell: yum install kubeadm -y
 
-    - name: restart kubeadm
-      shell: systemctl restart kubeadm
-
-    - name: enable kubeadm
-      shell: systemctl enable kubeadm
-
     - name: install kubectl
       shell: yum install kubectl -y
-
-    - name: restart kubectl
-      shell: systemctl restart kubectl
-
-    - name: enable kubectl
-      shell: systemctl enable kubectl
 
     - name: install kubelet
       shell: yum install kubelet -y
