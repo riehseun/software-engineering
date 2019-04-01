@@ -101,6 +101,10 @@
     - name: deploy network
       shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version={{kube_ver.stdout}}"
 
+    - name: record ip address of k8s-master
+      shell: echo {{ lookup('env', 'PUBLIC_IP') }}
+      regitser: k8s-master-ip
+
     # - name: get nodes
     #   shell: kubectl get nodes
 
