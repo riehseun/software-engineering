@@ -102,5 +102,4 @@
 
 
     # - name: join this k8s-node to k8s-master
-    # shell: kubeadm join --token {{ k8s_token }} --discovery-token-unsafe-skip-ca-verification {{ k8s_master_ip }}:6443
-    # shell: kubeadm join --token {{ hostvars['localhost']['k8s_token'] }} --discovery-token-unsafe-skip-ca-verification {{ hostvars['localhost']['k8s_master_ip'] }}:6443
+      # shell: kubeadm join --token {{ hostvars['K8S_TOKEN_HOLDER']['token'] }} --discovery-token-unsafe-skip-ca-verification {{ hostvars['K8S_TOKEN_HOLDER']['master_ip'] }}:6443
