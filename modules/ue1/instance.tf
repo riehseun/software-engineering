@@ -46,6 +46,7 @@ resource "google_compute_instance" "vm1" {
         }
 
         # You must install "ansible" on the machine where terraform-ansible suites get executed
+        # Add "-vvv" for verbose output
         command     = "ansible-playbook -vvv -u ${var.ssh_user} --private-key ~/.ssh/id_rsa k8s-master.yaml -i $PUBLIC_IP,"
     }
 }
