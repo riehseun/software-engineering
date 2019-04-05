@@ -198,4 +198,4 @@ resource "google_compute_instance" "vm1" {
 
 #     #     command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa ../ansible/k8s-node.yaml -i $PUBLIC_IP,"
 #     # }
-}
+# }
