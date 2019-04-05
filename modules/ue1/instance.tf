@@ -1,7 +1,7 @@
 resource "google_compute_instance" "vm1" {
     count         = "${var.instance_count}"
     name          = "k8s-cluster-${var.instance_count}"
-    machine_type  = "n1-standard-2"
+    machine_type  = "n1-standard-1"
     zone          = "${format("%s","${var.var_region_name}-c")}"
 
     tags          = ["ssh","http"]
