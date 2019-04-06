@@ -76,29 +76,29 @@ resource "google_compute_instance" "vm2" {
         }
     }
 
-    # provisioner "remote-exec" {
-    #     inline = [
-    #         "sudo yum install ansible -y"
-    #     ]
+    provisioner "remote-exec" {
+        inline = [
+            "sudo yum install ansible -y"-
+        ]
 
-    #     connection {
-    #         host        = "${self.network_interface.0.access_config.0.nat_ip}"
-    #         type        = "ssh"
-    #         user        = "${var.ssh_user}"
-    #         private_key = "${file("~/.ssh/id_rsa")}"
-    #     }
-    # }
+        connection {
+            host        = "${self.network_interface.0.access_config.0.nat_ip}"
+            type        = "ssh"
+            user        = "${var.ssh_user}"
+            private_key = "${file("~/.ssh/id_rsa")}"
+        }
+    }
 
-    # provisioner "local-exec" {
-    #     environment {
-    #         PUBLIC_IP                 = "${self.network_interface.0.access_config.0.nat_ip}"
-    #         HOSTNAME                  = "k8s-node1"
-    #         ANSIBLE_HOST_KEY_CHECKING = false
-    #         K8S_MASTER_IP             ="${google_compute_instance.vm1.network_interface.0.access_config.0.nat_ip}"
-    #     }
+    provisioner "local-exec" {
+        environment {
+            PUBLIC_IP                 = "${self.network_interface.0.access_config.0.nat_ip}"
+            HOSTNAME                  = "k8s-node1"
+            ANSIBLE_HOST_KEY_CHECKING = false
+            K8S_MASTER_IP             ="${google_compute_instance.vm1.network_interface.0.access_config.0.nat_ip}"
+        }
 
-    #     command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa ../ansible/k8s-node.yaml -i $PUBLIC_IP,"
-    # }
+        command     = "ansible-playbook -u ${var.ssh_user} --private-key ~/.ssh/id_rsa ../ansible/k8s-node.yaml -i $PUBLIC_IP,"
+    }
 }
 
 resource "google_compute_instance" "vm3" {
