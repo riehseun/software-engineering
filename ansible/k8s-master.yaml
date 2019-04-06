@@ -84,6 +84,7 @@
 
     - name: initialize k8s
       shell: kubeadm init
+      register: kubeadm_init_out
 
     - name: create .kube file
       shell: mkdir -p $HOME/.kube
@@ -114,13 +115,18 @@
       register: k8s_ca_hash
 
     - name: create local file with info returned by kubeadm init
-      local_action: copy content="{{ k8s_master_ip.stdout }}" dest="../ansible/current-cluster/k8s-master-ip.txt" # Destination directiry/file must be writable
+      local_action: copy content="{{ kubeadm_init_out }}" dest="../ansible/current-cluster/k8s-join-command.txt"
 
-    - name: create local file with info returned by kubeadm init
-      local_action: copy content="{{ k8s_token.stdout }}" dest="../ansible/current-cluster/k8s-token.txt"
+    # - name: create local file with info returned by kubeadm init
+    #   local_action: copy content="{{ k8s_master_ip.stdout }}" dest="../ansible/current-cluster/k8s-master-ip.txt" # Destination directiry/file must be writable
 
-    - name: create local file with info returned by kubeadm init
-      local_action: copy content="{{ k8s_ca_hash.stdout }}" dest="../ansible/current-cluster/k8s-ca-hash.txt"
+    # - name: create local file with info returned by kubeadm init
+    #   local_action: copy content="{{ k8s_token.stdout }}" dest="../ansible/current-cluster/k8s-token.txt"
+
+    # - name: create local file with info returned by kubeadm init
+    #   local_action: copy content="{{ k8s_ca_hash.stdout }}" dest="../ansible/current-cluster/k8s-ca-hash.txt"
+
+
 
 
 
