@@ -120,8 +120,8 @@
     - name: create local file with info returned by kubeadm init
       local_action: copy content="{{ k8s_token.stdout }}" dest="../ansible/current-cluster/k8s-token.txt"
 
-    - name: create local file with info returned by kubeadm init
-      local_action: copy content="{{ k8s_ca_hash.stdout }}" dest="../ansible/current-cluster/k8s-ca-hash.txt"
+    # - name: create local file with info returned by kubeadm init
+    #   local_action: copy content="{{ k8s_ca_hash.stdout }}" dest="../ansible/current-cluster/k8s-ca-hash.txt"
 
     - name: install git
       shell: yum install git -y
