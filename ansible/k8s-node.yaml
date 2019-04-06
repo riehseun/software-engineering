@@ -82,26 +82,11 @@
     - name: start docker.service
       shell: systemctl start docker.service
 
-    - name: join workers
-      vars:
-        join_command: "{{ lookup('file', '../ansible/current-cluster/k8s-join-command.txt') }}"
-      shell: "{{ join_command.stdout_lines[-1] }}"
+    # - name: join workers
+    #   vars:
+    #     join_command: "{{ lookup('file', '../ansible/current-cluster/k8s-join-command.txt') }}"
+    #   shell: "{{ join_command.stdout_lines[-1] }}"
 
-    # - name: debug k8s master ip
-    #   debug:
-    #     msg: "{{ hostvars['K8S_TOKEN_HOLDER']['master_ip'] }}"
-
-    # - name: debug k8s token
-    #   debug:
-    #     msg: "{{ hostvars['K8S_TOKEN_HOLDER']['token'] }}"
-
-    # - name:
-    #   debug: debug k8s Hash
-    #     msg: "{{ hostvars['K8S_TOKEN_HOLDER']['hash'] }}"
-
-    # - name: join current k8s-node to k8s-master
-    #   shell: >
-    #     kubeadm join --token={{ lookup('file', '../ansible/current-cluster/k8s-token.txt') }}
-    #     --discovery-token-ca-cert-hash sha256:{{ lookup('file', '../ansible/current-cluster/k8s-ca-hash.txt') }}
-    #     {{ lookup('file', '../ansible/current-cluster/k8s-master-ip.txt') }}:6443
+    - name: join current k8s-node to k8s-master
+      shell: kubeadm join --token={{ lookup('file', '../ansible/current-cluster/k8s-token.txt') }} --discovery-token-ca-cert-hash sha256:{{ lookup('file', '../ansible/current-cluster/k8s-ca-hash.txt') }} {{ lookup('file', '../ansible/current-cluster/k8s-master-ip.txt') }}:6443
 
