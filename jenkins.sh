@@ -116,10 +116,12 @@ kubectl apply -f deployment.yaml
 
 kubectl create -f service.yaml
 
-kubectl get service
+kubectl get service # Get the port of Jenkins master
 
 kubectl cluster-info | grep master
 
 kubectl get pods | grep jenkins
 
+kubectl describe pod <jenkins-pod>
 
+kubectl delete

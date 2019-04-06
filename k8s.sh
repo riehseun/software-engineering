@@ -83,5 +83,5 @@ systemctl restart kubelet && systemctl enable kubelet
 systemctl enable docker.service && systemctl start docker.service
 
 # From master, kubeadm token list
-kubeadm join --token [k8s-master-token] --discovery-token-unsafe-skip-ca-verification 35.231.174.32:6443
+kubeadm join --token cty8gh.lfniqzeqbs5ca4jb --discovery-token-unsafe-skip-ca-verification 104.196.99.17:6443
 # kubeadm join 10.26.2.2:6443 --token byxx0c.kuvpx2lhue3bxscw --discovery-token-ca-cert-hash sha256:3910fc8369279945a419e9c46c16fdcee24a00f233ab41d56baddf41e3243d36
