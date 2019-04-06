@@ -34,19 +34,19 @@ vi Dockerfile-jenkins-slave-jnlp2
 
 # ENTRYPOINT ["jenkins-slave"]
 
-docker build -f Dockerfile-jenkins-master -t <dockerhub_user>/jenkins-master .
+docker build -f Dockerfile-jenkins-master -t riehseun/jenkins-master .
 
 docker images
 
 docker login
 
-docker push <dockerhub_user>/jenkins-master
+docker push riehseun/jenkins-master
 
-docker build -f Dockerfile-jenkins-slave-jnlp1 -t <dockerhub_user>/jenkins-slave-jnlp1 .
-docker push <dockerhub_user>/jenkins-slave-jnlp1
+docker build -f Dockerfile-jenkins-slave-jnlp1 -t riehseun/jenkins-slave-jnlp1 .
+docker push riehseun/jenkins-slave-jnlp1
 
-docker build -f Dockerfile-jenkins-slave-jnlp2 -t <dockerhub_user>/jenkins-slave-jnlp2 .
-docker push <dockerhub_user>/jenkins-slave-jnlp2
+docker build -f Dockerfile-jenkins-slave-jnlp2 -t riehseun/jenkins-slave-jnlp2 .
+docker push riehseun/jenkins-slave-jnlp2
 
 vi deployment.yaml
 
@@ -63,7 +63,7 @@ vi deployment.yaml
 #     spec:
 #       containers:
 #         - name: jenkins
-#           image: <dockerhub_user>/jenkins-master
+#           image: riehseun/jenkins-master
 #           env:
 #             - name: JAVA_OPTS
 #               value: -Djenkins.install.runSetupWizard=false
