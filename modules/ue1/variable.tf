@@ -13,7 +13,3 @@ variable "ssh_key_private" {
     description = ""
     default = "~/.ssh/id_rsa"
 }
-variable "instance_count" {
-    description = ""
-    default = "4"
-}
