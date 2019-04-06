@@ -96,9 +96,9 @@
 
     - name: join current k8s-node to k8s-master
       shell: >
-        kubeadm join --token={{ lookup('file', '..ansible/current-cluster/k8s-token.txt') }}
-        --discovery-token-ca-cert-hash sha256:{{ lookup('file', '..ansible/current-cluster/k8s-ca-hash.txt') }}
-        {{ lookup('file', '..ansible/current-cluster/k8s-master-ip.txt') }}:6443
+        kubeadm join --token={{ lookup('file', '../ansible/current-cluster/k8s-token.txt') }}
+        --discovery-token-ca-cert-hash sha256:{{ lookup('file', '../ansible/current-cluster/k8s-ca-hash.txt') }}
+        {{ lookup('file', '../ansible/current-cluster/k8s-master-ip.txt') }}:6443
 
 
     # - name: join this k8s-node to k8s-master
