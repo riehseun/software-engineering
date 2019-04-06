@@ -125,3 +125,5 @@ kubectl get pods | grep jenkins
 kubectl describe pod <jenkins-pod>
 
 kubectl delete
+
+kubectl exec -it <jenkins-pod> -- /bin/bash
