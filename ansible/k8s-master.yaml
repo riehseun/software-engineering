@@ -125,30 +125,3 @@
 
     # - name: create local file with info returned by kubeadm init
     #   local_action: copy content="{{ k8s_ca_hash.stdout }}" dest="../ansible/current-cluster/k8s-ca-hash.txt"
-
-
-
-
-
-    # - name: add variables to dummy host
-    #   add_host:
-    #     name: "k8s_token_HOLDER"
-    #     token: "{{ k8s_token.stdout }}"
-    #     hash: "{{ K8S_MASTER_CA_HASH.stdout }}"
-    #     master_ip: "{{ k8s_master_ip.stdout }}"
-
-    # - name: Display all variables/facts known for k8s_token_HOLDER
-    #   debug:
-    #     var: hostvars["k8s_token_HOLDER"]
-
-    # - name: debug k8s master ip
-    #   debug:
-    #     msg: "{{ hostvars["k8s_token_HOLDER"]["master_ip"] }}"
-
-    # - name: debug k8s token
-    #   debug:
-    #     msg: "{{ hostvars['k8s_token_HOLDER']['token'] }}"
-
-    # - name:
-    #   debug: debug k8s Hash
-    #     msg: "{{ hostvars['k8s_token_HOLDER']['hash'] }}"
