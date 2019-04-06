@@ -82,11 +82,6 @@
     - name: start docker.service
       shell: systemctl start docker.service
 
-    # - name: join workers
-    #   vars:
-    #     join_command: "{{ lookup('file', '../ansible/current-cluster/k8s-join-command.txt') }}"
-    #   shell: "{{ join_command.stdout_lines[-1] }}"
-
     - name: join current k8s-node to k8s-master
       vars:
         token: "{{ lookup('file', '../ansible/current-cluster/k8s-token.txt') }}"

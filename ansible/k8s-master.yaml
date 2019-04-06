@@ -114,9 +114,6 @@
       shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
       register: k8s_ca_hash
 
-    # - name: create local file with info returned by kubeadm init
-    #   local_action: copy content="{{ kubeadm_init_out }}" dest="../ansible/current-cluster/k8s-join-command.txt"
-
     - name: create local file with info returned by kubeadm init
       local_action: copy content="{{ k8s_master_ip.stdout }}" dest="../ansible/current-cluster/k8s-master-ip.txt" # Destination directiry/file must be writable
 
