@@ -122,6 +122,8 @@
     - name: create local file with info returned by kubeadm init
       local_action: copy content="{{ K8S_CA_HASH }}" dest="../ansible/current-cluster/k8s-ca-hash.txt"
 
+
+
     # - name: add variables to dummy host
     #   add_host:
     #     name: "K8S_TOKEN_HOLDER"
