@@ -52,6 +52,7 @@ resource "google_compute_instance" "vm1" {
 }
 
 resource "google_compute_instance" "vm2" {
+    depends_on = ["google_compute_instance.vm1"]
     name          = "k8s-node1"
     machine_type  = "n1-standard-1"
     zone          = "${format("%s","${var.var_region_name}-c")}"
@@ -101,6 +102,7 @@ resource "google_compute_instance" "vm2" {
 }
 
 resource "google_compute_instance" "vm3" {
+    depends_on = ["google_compute_instance.vm1"]
     name          = "k8s-node2"
     machine_type  = "n1-standard-1"
     zone          = "${format("%s","${var.var_region_name}-c")}"
@@ -150,6 +152,7 @@ resource "google_compute_instance" "vm3" {
 }
 
 resource "google_compute_instance" "vm4" {
+    depends_on = ["google_compute_instance.vm1"]
     name          = "k8s-node3"
     machine_type  = "n1-standard-1"
     zone          = "${format("%s","${var.var_region_name}-c")}"
