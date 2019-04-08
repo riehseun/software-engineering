@@ -85,7 +85,6 @@
     - name: join current k8s-node to k8s-master
       vars:
         token: "{{ lookup('file', '../ansible/current-cluster/k8s-token.txt') }}"
-        # hash: "{{ lookup('file', '../ansible/current-cluster/k8s-ca-hash.txt') }}"
         ip: "{{ lookup('file', '../ansible/current-cluster/k8s-master-ip.txt') }}"
       shell: "kubeadm join --token={{ token }} --discovery-token-unsafe-skip-ca-verification {{ ip }}:6443"
 

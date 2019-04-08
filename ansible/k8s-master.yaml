@@ -110,18 +110,11 @@
       shell: kubeadm token list | cut -d ' ' -f1 | sed -n '2p'
       register: k8s_token
 
-    # - name: record k8s hash
-    #   shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
-    #   register: k8s_ca_hash
-
     - name: create local file with info returned by kubeadm init
       local_action: copy content="{{ k8s_master_ip.stdout }}" dest="../ansible/current-cluster/k8s-master-ip.txt" # Destination directiry/file must be writable
 
     - name: create local file with info returned by kubeadm init
       local_action: copy content="{{ k8s_token.stdout }}" dest="../ansible/current-cluster/k8s-token.txt"
-
-    # - name: create local file with info returned by kubeadm init
-    #   local_action: copy content="{{ k8s_ca_hash.stdout }}" dest="../ansible/current-cluster/k8s-ca-hash.txt"
 
     - name: install git
       shell: yum install git -y
