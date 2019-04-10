@@ -118,3 +118,6 @@
 
     - name: install git
       shell: yum install git -y
+
+    # - name: install helm
+    #   shell: yum install kubernetes-helm -y

@@ -30,9 +30,12 @@ vi service.yaml
 # https://www.blazemeter.com/blog/how-to-setup-scalable-jenkins-on-top-of-a-kubernetes-cluster
 
 # FROM k8s master
-kubectl apply -f deployment.yaml
+kubectl create -f jenkins-namespace.yaml
+kubectl create -f jenkins-deployment.yaml
+kubectl create -f jenkins-service.yaml
+kubectl get pods --namespace jenkins
+kubectl get all -n jenkins
 
-kubectl create -f service.yaml
 
 kubectl get service # Get the port of Jenkins master
 
@@ -46,3 +49,56 @@ kubectl get all
 kubectl delete
 
 kubectl exec -it <jenkins-pod> -- /bin/bash
+
+jenkins-slave
+jenkinsci/jnlp-slave
+
+kubectl get pods/<podname> -o yaml
+kubectl get services/<servicename> -o yaml
+
+# Givng "default" service account access to connect to k8s master
+kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts:default
+
+kubectl -n kube-system logs <jenkins-pod>
+
+kubectl logs <jenkins-pod> -c jnlp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## SAMPLE JOB
+def label = "worker-${UUID.randomUUID().toString()}"
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'jenkins-slave', image: 'jenkins-slave', command: 'cat', ttyEnabled: true),
+],
+volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+]) {
+  node(label) {
+    stage('Test') {
+      try {
+        container('jenkins-slave') {
+          sh """
+            echo hi
+            """
+        }
+      }
+      catch (exc) {
+        println "Failed to test - ${currentBuild.fullDisplayName}"
+        throw(exc)
+      }
+    }
+  }
+}
