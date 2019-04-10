@@ -81,7 +81,7 @@ kubectl logs <jenkins-pod> -c jnlp
 ## SAMPLE JOB
 def label = "worker-${UUID.randomUUID().toString()}"
 podTemplate(label: label, containers: [
-  containerTemplate(name: 'jenkins-slave', image: 'jenkins-slave', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'jenkins-slave', image: 'jenkinsci/jnlp-slave', command: 'cat', ttyEnabled: true),
 ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
