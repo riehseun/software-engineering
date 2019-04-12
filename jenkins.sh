@@ -50,20 +50,20 @@ kubectl delete
 
 kubectl exec -it <jenkins-pod> -- /bin/bash
 
-jenkins-slave
-jenkinsci/jnlp-slave
-
 kubectl get pods/<podname> -o yaml
 kubectl get services/<servicename> -o yaml
 
-# Givng "default" service account access to connect to k8s master
-kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts:default
+
 
 kubectl -n kube-system logs <jenkins-pod>
 
 kubectl logs <jenkins-pod> -c jnlp
 
 
+# Givng "default" service account access to connect to k8s master
+kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts:default
+Kubernetes URL : https://10.26.2.2:6443 (kubectl cluster-info)
+Jenkins tunnel : 104.196.0.154:50000 ()
 
 
 
