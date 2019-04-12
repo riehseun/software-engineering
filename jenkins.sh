@@ -30,7 +30,7 @@ vi service.yaml
 # https://www.blazemeter.com/blog/how-to-setup-scalable-jenkins-on-top-of-a-kubernetes-cluster
 
 # FROM k8s master
-kubectl create -f jenkins-namespace.yaml
+kubectl create -f jenkins-namespace.yaml (use "apply" for update)
 kubectl create -f jenkins-deployment.yaml
 kubectl create -f jenkins-service.yaml
 kubectl get pods --namespace jenkins
@@ -63,7 +63,7 @@ kubectl logs <jenkins-pod> -c jnlp
 # Givng "default" service account access to connect to k8s master
 kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts:default
 Kubernetes URL : https://10.26.2.2:6443 (kubectl cluster-info)
-Jenkins tunnel : 104.196.0.154:50000 ()
+Jenkins tunnel : 104.196.0.154:50000 (kubectl get svc)
 
 
 
