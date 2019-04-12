@@ -82,6 +82,9 @@
     - name: enable kubelet
       shell: systemctl enable kubelet
 
+    - name: install kubernetes-cni
+      shell: yum install kubernetes-cni -y
+
     - name: initialize k8s
       shell: kubeadm init
       register: kubeadm_init_out

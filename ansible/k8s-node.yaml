@@ -82,6 +82,9 @@
     - name: start docker.service
       shell: systemctl start docker.service
 
+    - name: install kubernetes-cni
+      shell: yum install kubernetes-cni -y
+
     - name: join current k8s-node to k8s-master
       vars:
         token: "{{ lookup('file', '../ansible/current-cluster/k8s-token.txt') }}"
