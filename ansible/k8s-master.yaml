@@ -122,5 +122,8 @@
     - name: install git
       shell: yum install git -y
 
+    - name: prepare k8s setup
+      shell: cd /home/Rieh && git clone https://github.com/riehseun/kubernetes-docker-jenkins.git
+
     # - name: install helm
     #   shell: yum install kubernetes-helm -y
