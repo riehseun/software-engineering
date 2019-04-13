@@ -27,14 +27,6 @@ vi deployment.yaml
 
 vi service.yaml
 
-# https://www.blazemeter.com/blog/how-to-setup-scalable-jenkins-on-top-of-a-kubernetes-cluster
-
-# FROM k8s master
-kubectl create -f jenkins-namespace.yaml (use "apply" for update)
-kubectl create -f jenkins-deployment.yaml
-kubectl create -f jenkins-service.yaml
-kubectl get pods --namespace jenkins
-kubectl get all -n jenkins
 
 
 kubectl get service # Get the port of Jenkins master
@@ -48,15 +40,10 @@ kubectl describe pod <jenkins-pod>
 kubectl get all
 kubectl delete
 
-kubectl exec -it <jenkins-pod> -- /bin/bash
-
 kubectl get pods/<podname> -o yaml
 kubectl get services/<servicename> -o yaml
 
-
-
 kubectl -n kube-system logs <jenkins-pod>
-
 kubectl logs <jenkins-pod> -c jnlp
 
 
@@ -65,9 +52,14 @@ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin
 Kubernetes URL : https://10.26.2.2:6443 (kubectl cluster-info)
 Jenkins tunnel : 104.196.0.154:50000 (kubectl get svc)
 
+# Get inside container
+kubectl exec -it <jenkins-pod> -- /bin/bash
 
+# Get all
+kubectl get all --all-namespaces
 
-
+# CoreDNS issue
+kubectl -n kube-system get deployment coredns -o yaml | sed 's/allowPrivilegeEscalation: false/allowPrivilegeEscalation: true/g' | kubectl apply -f -
 
 
 
