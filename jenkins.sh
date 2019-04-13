@@ -61,7 +61,8 @@ kubectl get all --all-namespaces
 # CoreDNS issue
 kubectl -n kube-system get deployment coredns -o yaml | sed 's/allowPrivilegeEscalation: false/allowPrivilegeEscalation: true/g' | kubectl apply -f -
 
-
+# Update deploymet (kill the pod after that)
+kubectl apply -f []
 
 
 
