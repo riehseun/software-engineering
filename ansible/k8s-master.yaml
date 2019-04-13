@@ -125,5 +125,8 @@
     - name: prepare k8s setup
       shell: cd /home/Rieh && git clone https://github.com/riehseun/kubernetes-docker-jenkins.git
 
+    - name: change line ending
+      shell: cd /home/Rieh/kubernetes-docker-jenkins/kubernetes && sed -i.bak 's/\r$//' k8s.sh
+
     # - name: install helm
     #   shell: yum install kubernetes-helm -y
