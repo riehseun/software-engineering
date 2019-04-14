@@ -28,7 +28,6 @@ vi deployment.yaml
 vi service.yaml
 
 
-
 kubectl get service # Get the port of Jenkins master
 
 kubectl cluster-info | grep master
@@ -66,11 +65,6 @@ kubectl apply -f []
 
 
 
-
-
-
-
-
 ## SAMPLE JOB
 def label = "worker-${UUID.randomUUID().toString()}"
 podTemplate(label: label, containers: [
@@ -95,3 +89,8 @@ volumes: [
     }
   }
 }
+
+
+## TensorFlow
+docker pull tensorflow/tensorflow
+docker run -it --rm -v $PWD:/tmp -w /tmp tensorflow/tensorflow python ./script.py
