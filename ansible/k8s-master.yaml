@@ -128,5 +128,17 @@
     - name: change line ending
       shell: cd /home/Rieh/kubernetes-docker-jenkins/kubernetes && sed -i.bak 's/\r$//' k8s.sh
 
+    - name: Jenkins X
+      sheel: mkdir -p ~/.jx/bin
+
+    - name: Jenkins X
+      sheel: curl -L https://github.com/jenkins-x/jx/releases/download/v2.0.2/jx-linux-amd64.tar.gz | tar xzv -C ~/.jx/bin
+
+    - name: Jenkins X
+      sheel: export PATH=$PATH:~/.jx/bin
+
+    - name: Jenkins X
+      sheel: echo 'export PATH=$PATH:~/.jx/bin' >> ~/.bashrc
+
     # - name: install helm
     #   shell: yum install kubernetes-helm -y
