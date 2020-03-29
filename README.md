@@ -1,1 +1,0 @@
-# This module deploys a custom k8s cluster in GCP
