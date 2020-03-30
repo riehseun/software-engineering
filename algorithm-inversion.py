@@ -19,7 +19,7 @@ def run(integer_array, filepath):
 		with open(filepath, 'r') as line:
 			integer_array = line.read().split("\n")
 
-	# base case (only one or two elements in each array)
+	# base case (only one or two elements in each array
 	if len(integer_array) == 1:
 		num_inversion = 0
 		return (integer_array, num_inversion)
