@@ -12,10 +12,8 @@ def calc_fib(n):
 	"""
 
 	# Handle corner cases
-	if n == 0:
-		return 0
-	elif n == 1:
-		return 1
+	if n <= 1:
+        return n
 
 	# Initialize array to store Fibonacci sequence
 	fib_array = []
