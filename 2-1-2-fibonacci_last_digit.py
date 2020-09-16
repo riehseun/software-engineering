@@ -1,6 +1,7 @@
 # Uses python3
 import sys
 
+
 def get_fibonacci_last_digit_naive(n):
     """
     Implments efficient algorithm for finding the last digit of nth
@@ -30,7 +31,6 @@ def get_fibonacci_last_digit_naive(n):
     return number
 
 
-if __name__ == '__main__':
-    input = sys.stdin.read()
-    n = int(input)
-    print(get_fibonacci_last_digit_naive(n))
+print(get_fibonacci_last_digit_naive(3))
+print(get_fibonacci_last_digit_naive(331))
+print(get_fibonacci_last_digit_naive(327305))

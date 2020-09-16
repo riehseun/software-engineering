@@ -31,5 +31,4 @@ def calc_fib(n):
 	return number
 
 
-n = int(input())
-print(calc_fib(n))
+print(calc_fib(10))

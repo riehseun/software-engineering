@@ -1,6 +1,7 @@
 # Uses python3
 import sys
 
+
 def lcm_naive(a, b):
 	"""
 	Finds the least common multiple
@@ -28,7 +29,5 @@ def lcm_naive(a, b):
     return 0
 
 
-if __name__ == '__main__':
-    input = sys.stdin.read()
-    a, b = map(int, input.split())
-    print(lcm_naive(a, b))
+print(lcm_naive(6, 8))
+print(lcm_naive(761457, 614573))

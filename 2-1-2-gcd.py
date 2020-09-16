@@ -1,6 +1,7 @@
 # Uses python3
 import sys
 
+
 def gcd_naive(a, b):
     """
     Implments efficient algorithm for finding the gretest common divisor
@@ -21,7 +22,5 @@ def gcd_naive(a, b):
     return gcd_naive(b, c)
 
 
-if __name__ == "__main__":
-    input = sys.stdin.read()
-    a, b = map(int, input.split())
-    print(gcd_naive(a, b))
+print(gcd_naive(18, 35))
+print(gcd_naive(28851538, 1183019))
