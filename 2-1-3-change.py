@@ -4,29 +4,29 @@ import sys
 
 def get_change(m):
     """
-	Finds the minimum number of coins needed to change the input value
+    Finds the minimum number of coins needed to change the input value
 
-	Args:
-	m -- input value
+    Args:
+    m -- input value
 
-	Returns:
-	denominations -- minimum number of coins needed
+    Returns:
+    denominations -- minimum number of coins needed
     """
 
     denominations = 0
 
     if m >= 10:
-    	remainder = m % 10
-    	denominations += int((m - remainder) / 10)
-    	m = remainder
+        remainder = m % 10
+        denominations += int((m - remainder) / 10)
+        m = remainder
 
     if m >= 5:
-    	remainder = m % 5
-    	denominations += int((m - remainder) / 5)
-    	m = remainder
+        remainder = m % 5
+        denominations += int((m - remainder) / 5)
+        m = remainder
 
     if m < 5:
-    	denominations += m
+        denominations += m
 
     return denominations
 
