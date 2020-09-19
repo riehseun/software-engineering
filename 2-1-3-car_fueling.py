@@ -29,7 +29,8 @@ def compute_min_refills(distance, tank, stops):
     while current_refill < num_stops:
     	last_refill = current_refill
 
-    	while (current_refill < num_stops and all_stops[current_refill+1] - all_stops[last_refill] <= tank):
+    	while (current_refill < num_stops and all_stops[current_refill+1]
+    		  - all_stops[last_refill] <= tank):
     		current_refill += 1
     		if current_refill == num_stops-1:
     			return num_refills
