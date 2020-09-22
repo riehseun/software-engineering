@@ -28,12 +28,7 @@ def optimal_points(segments):
         cluster = []
         target_segment = segments[0]
 
-        # Store all integers in range rather than only "from" and "to"
-        item = []
-        for i in range(target_segment[0], target_segment[1]+1):
-            item.append(i)
-
-        cluster.append(item)
+        cluster.append(target_segment)
         segments.remove(segments[0])
 
         new_segments = []
@@ -43,15 +38,7 @@ def optimal_points(segments):
             if (segment[0] <= target_segment[1]
                 and segment[1] >= target_segment[0]):
                 # Both conditions satisfied
-
-                # Store all integers in range rather than only "from"
-                # and "to"
-                item = []
-                for i in range(segment[0], segment[1]+1):
-                    item.append(i)
-
-                cluster.append(item)
-
+                cluster.append(segment)
             else:
                 new_segments.append(segment)
 
@@ -61,21 +48,10 @@ def optimal_points(segments):
     overlapping_values = []
 
     for cluster in clusters:
-
-        overlapping_value = 0
-
-        # Take the first item in each cluster and check all the values
-        for number in cluster[0]:
-            is_overlapping_value = True
-            for i in range(1, len(cluster)):
-                if number not in cluster[i]:
-                    is_overlapping_value = False
-
-            # Store only the biggest overlapping value
-            if is_overlapping_value:
-                overlapping_value = number
-
-        overlapping_values.append(overlapping_value)
+        # Smallest value of the second coordinates in the sorted list
+        # should be the largest common integer
+        cluster.sort(key=lambda x: x[1])
+        overlapping_values.append(cluster[0][1])
 
     # Construct the output
     answer = str(len(clusters))
@@ -89,27 +65,3 @@ def optimal_points(segments):
 
 print(optimal_points([[1,3], [2,5], [3,6]]))
 print(optimal_points([[4,7], [1,3], [2,5], [5,6]]))
-
-the_array = []
-with open("test.txt", 'r') as line:
-
-    total = line.read().split("\n")
-    # print(total)
-
-    for item in total:
-        temp = []
-        a = item.split(" ")
-        temp.append(int(a[0]))
-        temp.append(int(a[1]))
-
-        the_array.append(temp)
-
-print(optimal_points(the_array))
-
-
-
-# if __name__ == '__main__':
-#     input = sys.stdin.read()
-#     n, *data = map(int, input.split())
-#     segments = list(map(lambda x: Segment(x[0], x[1]), zip(data[::2], data[1::2])))
-#     print(optimal_points(segments))
