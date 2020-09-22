@@ -18,6 +18,9 @@ def optimal_points(segments):
     answer -- miminum number of point and all marked points
     """
 
+    # Sort the segments by the first coordinates
+    segments.sort(key=lambda x: x[0])
+
     clusters = []
     overlapping_coordinates = []
 
@@ -55,29 +58,54 @@ def optimal_points(segments):
         segments = new_segments
         clusters.append(cluster)
 
-    overlapping_values = set()
+    overlapping_values = []
+
     for cluster in clusters:
+
+        overlapping_value = 0
+
         # Take the first item in each cluster and check all the values
         for number in cluster[0]:
+            is_overlapping_value = True
             for i in range(1, len(cluster)):
-                is_overlapping_value = True
                 if number not in cluster[i]:
                     is_overlapping_value = False
 
+            # Store only the biggest overlapping value
             if is_overlapping_value:
-                overlapping_values.add(number)
+                overlapping_value = number
+
+        overlapping_values.append(overlapping_value)
 
     # Construct the output
     answer = str(len(clusters))
     answer += "\n"
     for elem in overlapping_values:
         answer += str(elem)
+        answer += " "
 
     return answer
 
 
 print(optimal_points([[1,3], [2,5], [3,6]]))
 print(optimal_points([[4,7], [1,3], [2,5], [5,6]]))
+
+the_array = []
+with open("test.txt", 'r') as line:
+
+    total = line.read().split("\n")
+    # print(total)
+
+    for item in total:
+        temp = []
+        a = item.split(" ")
+        temp.append(int(a[0]))
+        temp.append(int(a[1]))
+
+        the_array.append(temp)
+
+print(optimal_points(the_array))
+
 
 
 # if __name__ == '__main__':
