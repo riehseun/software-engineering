@@ -18,8 +18,8 @@ def optimal_points(segments):
     answer -- miminum number of point and all marked points
     """
 
-    # Sort the segments by the first coordinates
-    segments.sort(key=lambda x: x[0])
+    # Sort the segments by the second coordinates
+    segments.sort(key=lambda x: x[1])
 
     clusters = []
     overlapping_coordinates = []
@@ -112,6 +112,4 @@ print(optimal_points(the_array))
 #     input = sys.stdin.read()
 #     n, *data = map(int, input.split())
 #     segments = list(map(lambda x: Segment(x[0], x[1]), zip(data[::2], data[1::2])))
-#     points = optimal_points(segments)
-#     # print(len(points))
-#     print(*points)
+#     print(optimal_points(segments))
