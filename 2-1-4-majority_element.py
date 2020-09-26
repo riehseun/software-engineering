@@ -1,18 +1,29 @@
 # Uses python3
 import sys
+import math
 
-def get_majority_element(a, left, right):
-    if left == right:
-        return -1
-    if left + 1 == right:
-        return a[left]
-    #write your code here
-    return -1
 
-if __name__ == '__main__':
-    input = sys.stdin.read()
-    n, *a = list(map(int, input.split()))
-    if get_majority_element(a, 0, n) != -1:
-        print(1)
+def get_majority_element(a):
+    """
+    Checks if the sequence contains an element that appears strictly
+    more than n/2 times
+
+    Args:
+    a -- input array
+
+    Returns:
+    boolean indicating whether the check results in True/False
+    """
+
+    a.sort()
+
+    mid = math.floor((len(a)-1)/2)
+
+    if a.count(a[mid]) > len(a)/2:
+        return True
     else:
-        print(0)
+        return False
+
+
+print(get_majority_element([2,3,9,2,2]))
+print(get_majority_element([1,2,3,4]))
