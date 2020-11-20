@@ -24,43 +24,30 @@ def get_change(m):
     for _ in range(m+1):
         min_num_coins.append(0)
 
-    return get_change_subroutine(m, coins, min_num_coins)
+    if m >= 1:
+        min_num_coins[1] = 1
+    if m >= 3:
+        min_num_coins[3] = 1
+    if m >= 4:
+        min_num_coins[4] = 1
 
+    # Base cases
+    if m == 0:
+        return 0
 
-
-def get_change_subroutine(m, coins, min_num_coins):
-    """
-
-    """
-
-    # Base case
     if m in coins:
-        min_num_coins[m] = 1
-        # print(str(m) + ":" +str(min_num_coins[m]))
         return min_num_coins[m]
 
     for i in range(1, m+1):
         min_num_coins[i] = 1000
         for coin in coins:
             if i >= coin:
-                num_coins = get_change_subroutine(
-                    i-coin, coins, min_num_coins)+1
+                num_coins = min_num_coins[i-coin]+1
                 if num_coins < min_num_coins[i]:
                     min_num_coins[i] = num_coins
 
     return min_num_coins[m]
 
 
-
-
 print(get_change(2))
-print(get_change(3))
-print(get_change(4))
-print(get_change(5))
 print(get_change(34))
-
-
-
-if __name__ == '__main__':
-    m = int(sys.stdin.read())
-    print(get_change(m))
