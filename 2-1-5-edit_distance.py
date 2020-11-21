@@ -34,7 +34,8 @@ def edit_distance(s, t):
     for j in range(1,m+1):
         for i in range(1,n+1):
 
-            # Recurrence
+            # Recurrence (last column of optimal alignment is either
+            # one of the four)
             insertion = D[i][j-1] + 1
             deletion = D[i-1][j] + 1
             match = D[i-1][j-1]
