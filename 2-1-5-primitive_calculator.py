@@ -10,6 +10,9 @@ def optimal_sequence(n):
 
     Args:
     n -- input number
+
+    Returns:
+    The minimum number of operations and all steps taken in between
     """
 
     min_ops = []
