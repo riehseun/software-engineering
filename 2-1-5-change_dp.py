@@ -40,9 +40,12 @@ def get_change(m):
 
     for i in range(1, m+1):
         min_num_coins[i] = 1000
+
+        # Recurrence
         for coin in coins:
             if i >= coin:
-                num_coins = min_num_coins[i-coin]+1
+                num_coins = min_num_coins[i-coin] + 1
+
                 if num_coins < min_num_coins[i]:
                     min_num_coins[i] = num_coins
 
