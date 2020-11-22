@@ -14,7 +14,6 @@ def optimal_weight(W, weights):
     Optimal value
     """
 
-
     # In this problem, the values and weights are the same
     n = len(weights)
     v = [[0 for i in range(n+1)] for w in range(W+1)]
