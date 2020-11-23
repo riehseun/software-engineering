@@ -22,16 +22,6 @@ def lcs3(a, b, c):
     # Create 3-dimensional distance matrix D
     D = [[[0 for k in range(p+1)] for j in range(m+1)] for i in range(n+1)]
 
-    # Initialize 3-dimensional distance matrix D
-    # for i in range(1,n+1):
-    #     D[i][0][0] = str(a[i-1])
-
-    # for j in range(1,m+1):
-    #     D[0][j][0] = str(b[j-1])
-
-    # for k in range(1,p+1):
-    #     D[0][0][k] = str(c[k-1])
-
     for i in range(1,n+1):
         for j in range(1,m+1):
             for k in range(1,p+1):
@@ -40,12 +30,7 @@ def lcs3(a, b, c):
                 # than the current index i and j, that match indicates
                 # construction of a valid substring
                 if a[i-1] == b[j-1] == c[k-1]:
-                    D[i][j][k] = max(D[i-1][j][k], D[i][j-1][k], D[i][j][k-1], D[i-1][j-1][k], D[i-1][j][k-1], D[i][j-1][k-1], D[i-1][j-1][k-1]+1)
-
-                    # D[i][j][k] = find_the_max_from_small_indexes(D, i, j, k)
-                    D[i][j][k] += 1
-
-    # print(D)
+                    D[i][j][k] = find_the_max_from_small_indexes(D, i, j, k)+1
 
     # Find the maximum number from the table
     maximum = 0
@@ -72,31 +57,11 @@ def find_the_max_from_small_indexes(D, a, b, c):
     The maxiumm number from the table
     """
 
-    # for i in reversed(range(2,a+1)):
-    #     for j in reversed(range(2,b+1)):
-    #         for k in reversed(range(2,c+1)):
-    #             if D[i][j][k] != 0:
-    #                 # print(D[i][j][k])
-    #                 # print(D[i-1][j][k])
-    #                 # print(D[i][j-1][k])
-    #                 # print(D[i][j][k-1])
-    #                 # print(D[i-1][j-1][k])
-    #                 # print(D[i-1][j][k-1])
-    #                 # print(D[i][j-1][k-1])
-    #                 if i != 1 and j != 1 and k != 1:
-    #                     return max(D[i-1][j][k], D[i][j-1][k], D[i][j][k-1], D[i-1][j-1][k], D[i-1][j][k-1], D[i][j-1][k-1], D[i-1][j-1][k-1])
-    #                 else:
-    #                     return D[i][j][k]
-
-    # return 0
-
-
-
     maximum = 0
 
-    for i in reversed(range(1,a)):
-        for j in reversed(range(1,b)):
-            for k in reversed(range(1,c)):
+    for i in reversed(range(a)):
+        for j in reversed(range(b)):
+            for k in reversed(range(c)):
                 if D[i][j][k] != 0 and D[i][j][k] > maximum:
                     maximum = D[i][j][k]
 
