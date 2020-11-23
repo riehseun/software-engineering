@@ -1,62 +1,46 @@
-# python3
-
-from collections import namedtuple
-
-Bracket = namedtuple("Bracket", ["char", "position"])
-
-
-def are_matching(left, right):
-    return (left + right) in ["()", "[]", "{}"]
-
-
-def find_mismatch(text):
-    opening_brackets_stack = []
-    for i, next in enumerate(text):
-        if next in "([{":
-            # Process opening bracket, write your code here
-            pass
-
-        if next in ")]}":
-            # Process closing bracket, write your code here
-            pass
-
-
-def main():
-    text = input()
-    mismatch = find_mismatch(text)
-    # Printing answer, write your code here
-
-
 def is_balanced(string):
     """
+    Check if all the opening brackets in the string are properly closed
 
+    Args:
+    string -- input string containing brackets
+
+    Returns:
+    Success if all opening brackets are properly closed. Otherwise,
+    outputs the index of the opening bracket that is not closed
     """
 
+    # opening_brackets = {}
+    opening_brackets = []
     stack = []
 
-    for char in string:
+    for i in range(len(string)):
 
-        if char == "[" or char == "(" or char == "{":
-            stack.append(char)
+        # If opening bracket
+        if string[i] in ["[", "(", "{"]:
+            stack.append((i+1, string[i]))
 
         else:
-            if not stack:
-                return "Success"
+            # If closing bracket
+            if string[i] in ["]", ")", "}"]:
+                if not stack:
+                    return i + 1
 
-            top = stack.pop()
-            if ((top == "[" and char != "]")
-                or (top == "(" and char != ")")
-                or (top == "{" and char != "}")):
-                # One of three conditions satisfy
+                top = stack.pop()
 
-                print(stack)
-                return string.index(char) + 1
+                if ((top[1] == "[" and string[i] != "]")
+                    or (top[1] == "(" and string[i] != ")")
+                    or (top[1] == "{" and string[i] != "}")):
+                    # One of three conditions satisfy
 
-    print(stack)
+                    return i + 1
+
     if not stack:
         return "Success"
+
     else:
-        return string.index(char) + 1
+        remaining_opening_bracket = stack.pop()
+        return remaining_opening_bracket[0]
 
 
 print(is_balanced("[]"))
@@ -68,7 +52,3 @@ print(is_balanced("{"))
 print(is_balanced("{[}"))
 print(is_balanced("foo(bar);"))
 print(is_balanced("foo(bar[i);"))
-
-
-# if __name__ == "__main__":
-#     main()
