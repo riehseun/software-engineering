@@ -27,5 +27,48 @@ def main():
     # Printing answer, write your code here
 
 
-if __name__ == "__main__":
-    main()
+def is_balanced(string):
+    """
+
+    """
+
+    stack = []
+
+    for char in string:
+
+        if char == "[" or char == "(" or char == "{":
+            stack.append(char)
+
+        else:
+            if not stack:
+                return "Success"
+
+            top = stack.pop()
+            if ((top == "[" and char != "]")
+                or (top == "(" and char != ")")
+                or (top == "{" and char != "}")):
+                # One of three conditions satisfy
+
+                print(stack)
+                return string.index(char) + 1
+
+    print(stack)
+    if not stack:
+        return "Success"
+    else:
+        return string.index(char) + 1
+
+
+print(is_balanced("[]"))
+print(is_balanced("{}[]"))
+print(is_balanced("[()]"))
+print(is_balanced("(())"))
+print(is_balanced("{[]}()"))
+print(is_balanced("{"))
+print(is_balanced("{[}"))
+print(is_balanced("foo(bar);"))
+print(is_balanced("foo(bar[i);"))
+
+
+# if __name__ == "__main__":
+#     main()
