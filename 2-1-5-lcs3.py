@@ -26,9 +26,9 @@ def lcs3(a, b, c):
         for j in range(1,m+1):
             for k in range(1,p+1):
 
-                # If there was a match where both index i and j were smaller
-                # than the current index i and j, that match indicates
-                # construction of a valid substring
+                # If there was a match where both index i and j were
+                # smaller than the current index i and j, that match
+                # indicates construction of a valid substring
                 if a[i-1] == b[j-1] == c[k-1]:
                     D[i][j][k] = find_the_max_from_small_indexes(D, i, j, k)+1
 
