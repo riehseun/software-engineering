@@ -23,14 +23,14 @@ def lcs3(a, b, c):
     D = [[[0 for k in range(p+1)] for j in range(m+1)] for i in range(n+1)]
 
     # Initialize 3-dimensional distance matrix D
-    for i in range(1,n+1):
-        D[i][0][0] = str(a[i-1])
+    # for i in range(1,n+1):
+    #     D[i][0][0] = str(a[i-1])
 
-    for j in range(1,m+1):
-        D[0][j][0] = str(b[j-1])
+    # for j in range(1,m+1):
+    #     D[0][j][0] = str(b[j-1])
 
-    for k in range(1,p+1):
-        D[0][0][k] = str(c[k-1])
+    # for k in range(1,p+1):
+    #     D[0][0][k] = str(c[k-1])
 
     for i in range(1,n+1):
         for j in range(1,m+1):
@@ -40,10 +40,12 @@ def lcs3(a, b, c):
                 # than the current index i and j, that match indicates
                 # construction of a valid substring
                 if a[i-1] == b[j-1] == c[k-1]:
-                    D[i][j][k] = find_the_max_from_small_indexes(D, i, j, k)
+                    D[i][j][k] = max(D[i-1][j][k], D[i][j-1][k], D[i][j][k-1], D[i-1][j-1][k], D[i-1][j][k-1], D[i][j-1][k-1], D[i-1][j-1][k-1]+1)
+
+                    # D[i][j][k] = find_the_max_from_small_indexes(D, i, j, k)
                     D[i][j][k] += 1
 
-    print(D)
+    # print(D)
 
     # Find the maximum number from the table
     maximum = 0
@@ -101,15 +103,15 @@ def find_the_max_from_small_indexes(D, a, b, c):
     return maximum
 
 
-start_time = time.time()
-print(lcs3([1,2,3], [2,1,3], [1,3,5]))
-print("--- %s seconds ---" % (time.time() - start_time))
-start_time = time.time()
-print(lcs3([8,3,2,1,7], [8,2,1,3,8,10,7], [6,8,3,1,4,7]))
-print("--- %s seconds ---" % (time.time() - start_time))
-start_time = time.time()
-print(lcs3([3,1,2,5,7], [3,2,6,7], [3,1,2,6,7]))
-print("--- %s seconds ---" % (time.time() - start_time))
+# start_time = time.time()
+# print(lcs3([1,2,3], [2,1,3], [1,3,5]))
+# print("--- %s seconds ---" % (time.time() - start_time))
+# start_time = time.time()
+# print(lcs3([8,3,2,1,7], [8,2,1,3,8,10,7], [6,8,3,1,4,7]))
+# print("--- %s seconds ---" % (time.time() - start_time))
+# start_time = time.time()
+# print(lcs3([3,1,2,5,7], [3,2,6,7], [3,1,2,6,7]))
+# print("--- %s seconds ---" % (time.time() - start_time))
 
 
 if __name__ == '__main__':

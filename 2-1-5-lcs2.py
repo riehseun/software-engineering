@@ -26,13 +26,6 @@ def lcs2(a, b):
         for _ in range(m+1):
             D[i].append(0)
 
-    # Initialize 2-dimensional distance matrix D
-    for i in range(1,n+1):
-        D[i][0] = a[i-1]
-
-    for j in range(1,m+1):
-        D[0][j] = b[j-1]
-
     for j in range(1,m+1):
         for i in range(1,n+1):
 
@@ -40,8 +33,7 @@ def lcs2(a, b):
             # than the current index i and j, that match indicates
             # construction of a valid substring
             if a[i-1] == b[j-1]:
-                D[i][j] = find_the_max_from_small_indexes(D, i, j)
-                D[i][j] += 1
+                D[i][j] = find_the_max_from_small_indexes(D, i, j) + 1
 
     # Find the maximum number from the table
     potential_max = []
@@ -63,21 +55,17 @@ def find_the_max_from_small_indexes(D, a, b):
     b -- an index
 
     Returns:
-    The maxiumm number from the table
+    The maximum number from the table
     """
 
-    all_values = []
+    maximum = 0
 
-    for i in range(1,a):
-        for j in range(1,b):
-            if D[i][j] != 0:
-                all_values.append(D[i][j])
+    for i in range(a):
+        for j in range(b):
+            if D[i][j] > maximum:
+                maximum = D[i][j]
 
-    if not all_values:
-        # If an empty list
-        return 0
-    else:
-        return max(all_values)
+    return maximum
 
 
 print(lcs2("275", "25"))
