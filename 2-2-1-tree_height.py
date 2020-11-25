@@ -32,7 +32,7 @@ def compute(n, parents):
     data = bfs(tree, root)
     nodes = data[0]
     last_item = data[1]
-    return compute_height_from_bfg(nodes, last_item, [0]) + 1
+    return compute_height_from_bfs(nodes, root, last_item, [0]) + 1
 
     # Compute height by constructing subtrees
     return compute_height(tree, root)
@@ -116,24 +116,28 @@ def bfs(tree, root):
     queue.append(v)
     while len(queue) > 0:
         node = queue.popleft()
-        last_item = next(iter(node))
+        for key, val in node.items():
+            nodes[key] = val
+
+            for child in val:
+                v = {}
+                v[child] = tree[child]
+                queue.append(v)
+                last_item = child
 
         # Stores the relationship such that child is the key and parent
         # is the value. This is for easy traversal to calculate the
         # height of the tree. The root of the tree will be excluded
         # since it does not have a parent
-        for item in node[next(iter(node))]:
-            nodes[item] = next(iter(node))
 
-        for child in node[next(iter(node))]:
-            v = {}
-            v[child] = tree[child]
-            queue.append(v)
+        # for item in node[next(iter(node))]:
+        #     nodes[item] = next(iter(node))
+        # nodes[next(iter(node))] = node[next(iter(node))]
 
     return (nodes, last_item)
 
 
-def compute_height_from_bfg(nodes, child, height):
+def compute_height_from_bfs(nodes, root, child, height):
     """
     Compute height of the tree from the result of BFS
 
@@ -146,15 +150,45 @@ def compute_height_from_bfg(nodes, child, height):
     The height of the tree
     """
 
-    if child not in nodes:
+    # print(nodes)
+    # print(child)
+    # print(root)
+
+    if child == root:
         return height[0]
 
     for key, val in nodes.items():
-        if key == child:
-            height[0] += 1
-            return compute_height_from_bfg(nodes, val, height)
+        for item in val:
+            if child == item:
+                height[0] += 1
+                return compute_height_from_bfs(nodes, root, key, height)
+
+    # if child not in nodes:
+    #     return height[0]
+
+    # for key, val in nodes.items():
+    #     if key == child:
+    #         height[0] += 1
+    #         return compute_height_from_bfg(nodes, val, height)
 
 
-print(compute(5, [4,-1,4,1,1]))
-print(compute(5, [-1,0,4,0,3]))
-print(compute(10, [9,7,5,5,2,9,9,9,2,-1]))
+# print(compute(5, [4,-1,4,1,1]))
+# print(compute(5, [-1,0,4,0,3]))
+# print(compute(10, [9,7,5,5,2,9,9,9,2,-1]))
+
+
+def main():
+    # print(compute(5, [4,-1,4,1,1]))
+    # print(compute(5, [-1,0,4,0,3]))
+    # print(compute(10, [9,7,5,5,2,9,9,9,2,-1]))
+    n = int(input())
+    parents = list(map(int, input().split()))
+    print(compute(n, parents))
+
+
+# In Python, the default limit on recursion depth is rather low,
+# so raise it here for this problem. Note that to take advantage
+# of bigger stack, we have to launch the computation in a new thread.
+sys.setrecursionlimit(10**7)  # max depth of recursion
+threading.stack_size(2**27)   # new thread will get stack of such size
+threading.Thread(target=main).start()
