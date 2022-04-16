@@ -16,6 +16,10 @@ class Leet58(object):
             Integer representing the length of last word.
         """
 
+        # Time: O(n)
+        # Space: O(n)
+        # Worst case for both time and space is that every char is
+        # separated by a space.
         word_array = s.strip().split(" ")
 
         return len(word_array[len(word_array)-1])

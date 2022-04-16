@@ -17,8 +17,10 @@ class Leet28(object):
             An integer representing an index or -1.
         """
 
-        if needle in haystack:
-            return haystack.index(needle)
+        # Time: O(n) in total.
+        # Space: O(1).
+        if needle in haystack:  # O(n)
+            return haystack.index(needle)  # O(n)
 
         return -1
 
