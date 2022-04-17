@@ -14,7 +14,7 @@ class Leet9(object):
             x -- An integer.
 
         Returns:
-            True if input integer is palindrom. False otherwise.
+            True if an input integer is palindrom. False otherwise.
         """
 
         # Negative number is not palindrom.
@@ -33,7 +33,9 @@ class Leet9(object):
         num_reverse = 0
 
         # Exactly half of the number is reversed when the original is
-        # less than the reversed. O(n/2)
+        # less than the reversed.
+        # Time: O(n/2) reverses only the half of input length.
+        # Space: O(n/2) stores only the half of input length.
         while x > num_reverse:
             # Get the last digit of the original number.
             last_digit = x % 10
@@ -45,7 +47,9 @@ class Leet9(object):
         if num_reverse == x:
             return True
         else:
-            if math.trunc(num_reverse/10) == x and num_reverse > 9:
+            # If the original number had an odd number of digits,
+            # the middle number would be the last digit of the reversed.
+            if math.trunc(num_reverse/10) == x:
                 return True
 
         return False

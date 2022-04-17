@@ -19,10 +19,11 @@ class Leet14(object):
         common_prefix = ""
         char = None
 
-        # Runs in O(s) where s is the combined length of all strings.
+        # Time: O(s) where s is the combined length of all strings.
+        # Space: O(s) worst case is exactly identical strings.
         # Start with the first char in the first string.
         for j in range(len(strs[0])):
-            # Assume the first char will exist in all strings
+            # Assume the first common char will exist in all strings.
             common_char = True
             # Loop through each string and check.
             for i in range(len(strs)):
@@ -33,6 +34,7 @@ class Leet14(object):
                     common_char = False
                     break  # Exit inner loop, no need to proceed.
                 if not char:
+                    # Assign jth char of ith string to "char" variable.
                     char = strs[i][j]
                 if strs[i][j] != char:
                     common_char = False

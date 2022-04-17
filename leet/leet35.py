@@ -8,7 +8,7 @@ import math
 class Leet35(object):
     def search_insert(self, nums, target):
         """
-        Find the insert position in the arry for the target number.
+        Find the insert position in the array for the target number.
 
         Args:
             nums -- Sorted array of distinct integers.
@@ -21,8 +21,10 @@ class Leet35(object):
 
         # If target is bigger than even the biggest number in nums.
         if target > nums[len(nums)-1]:
-            return len(nums)
+            return len(nums)  # O(1)
 
+        # Time: O(n).
+        # Space: O(1).
         for i in range(len(nums)):
             if target <= nums[i]:
                 return i

@@ -13,7 +13,9 @@ class Leet27(object):
             val -- An integer.
         """
 
+        # Time: O(n) although while loop and remove operation are both
+        # O(n), the total operation cannot exceed the length of list.
         while val in nums:
-            nums.remove(val)
+            nums.remove(val)  # O(n)
 
         return len(nums)
