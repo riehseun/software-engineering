@@ -27,9 +27,19 @@ class TestLeet4(unittest.TestCase):
     #     test = self.leet4.find_median_sorted_arrays([0,0,0,0,0], [-1,0,0,0,0,0,1])
     #     self.assertEqual(test, 0.00000)
 
-    def test_find_median_sorted_arrays_6(self):
-        test = self.leet4.find_median_sorted_arrays([1,2], [-1,3])
-        self.assertEqual(test, 1.50000)
+    # def test_find_median_sorted_arrays_6(self):
+    #     test = self.leet4.find_median_sorted_arrays([1,2], [-1,3])
+    #     self.assertEqual(test, 1.50000)
+
+    # def test_find_median_sorted_arrays_7(self):
+    #     test = self.leet4.find_median_sorted_arrays([1,2], [1,2,3])
+    #     self.assertEqual(test, 2.00000)
+
+    def test_find_median_sorted_arrays_8(self):
+        test = self.leet4.find_median_sorted_arrays([1], [2,3])
+        # 1 vs 2.5
+        # [1]
+        self.assertEqual(test, 2.00000)
 
 
 if __name__ == "__main__":
