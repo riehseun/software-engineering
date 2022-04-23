@@ -3,7 +3,7 @@ import unittest
 from leet3 import Leet3
 
 
-class TestLeet58(unittest.TestCase):
+class TestLeet3(unittest.TestCase):
     def setUp(self):
         self.leet3 = Leet3()
 
@@ -38,8 +38,6 @@ class TestLeet58(unittest.TestCase):
     def test_length_of_longest_substring_8(self):
         test = self.leet3.length_of_longest_substring("tmmzuxt")
         self.assertEqual(test, 5)
-
-
 
 
 if __name__ == "__main__":
