@@ -37,6 +37,14 @@ class Leet4(object):
         Returns:
             ith element from the combined sorted array (float)
         """
+
+        # Key idea:
+        # 1. numbers less than smaller median of the two array cannot
+        # be the median of combined sorted array.
+        # 2. The index
+
+
+
         pass
 
 
