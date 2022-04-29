@@ -188,15 +188,20 @@ class Leet4(object):
         # median of the merged array.
         elif median_nums1 < median_nums2:
             # Numbers less than smaller median must go.
-            nums1_trimmed = nums1[int(math.floor(n/2)):]
+            if n % 2 == 0 and n > 2:
+                nums1_trimmed = nums1[int(math.floor(n/2))-1:]
+            else:
+                nums1_trimmed = nums1[int(math.floor(n/2)):]
             # Numbers greater than the larger median must go.
-            nums2_trimmed = nums2[:m-int(math.floor(m/2))]
+            if n % 2 == 0 and n > 2:
+                nums2_trimmed = nums2[:len(nums2)-int(math.floor(n/2))+1]
+            else:
+                nums2_trimmed = nums2[:len(nums2)-int(math.floor(n/2))]
 
-            nums_removed_from_nums2 = len(nums2) - len(nums2_trimmed)
-            nums_removed_from_nums1 = len(nums1) - len(nums1_trimmed)
-            diff = abs(nums_removed_from_nums2-nums_removed_from_nums1)
+            print(nums1_trimmed)
+            print(nums2_trimmed)
 
-            return self.find_median_sorted_arrays(nums2_trimmed, nums1_trimmed+[math.inf]*diff)
+            return self.find_median_sorted_arrays(nums2_trimmed, nums1_trimmed)
 
         # Example:
         # nums1: [3,4,6,9,11] med 6
@@ -207,14 +212,19 @@ class Leet4(object):
         # median of the merged array.
         else:
             # Numbers less than smaller median must go.
-            nums2_trimmed = nums2[int(math.floor(m/2)):]
+            if m % 2 == 0 and m > 2:
+                nums2_trimmed = nums2[int(math.floor(m/2))-1:]
+            else:
+                nums2_trimmed = nums2[int(math.floor(m/2)):]
             # Numbers greater than the larger median must go.
-            nums1_trimmed = nums1[:n-int(math.floor(n/2))]
+            if m % 2 == 0 and m > 2:
+                nums1_trimmed = nums1[:len(nums1)-int(math.floor(m/2))+1]
+            else:
+                nums1_trimmed = nums1[:len(nums1)-int(math.floor(m/2))]
 
-            nums_removed_from_nums2 = len(nums2) - len(nums2_trimmed)
-            nums_removed_from_nums1 = len(nums1) - len(nums1_trimmed)
-            diff = abs(nums_removed_from_nums2-nums_removed_from_nums1)
+            print(nums1_trimmed)
+            print(nums2_trimmed)
 
-            return self.find_median_sorted_arrays(nums1_trimmed, nums2_trimmed+[math.inf]*diff)
+            return self.find_median_sorted_arrays(nums1_trimmed, nums2_trimmed)
 
 
