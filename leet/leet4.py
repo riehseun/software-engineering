@@ -7,138 +7,107 @@ import bisect
 
 
 class Leet4(object):
-    def findMedianSortedArrays(self, nums1, nums2):
+    def find_median_sorted_arrays(self, nums1, nums2):
 
         n = len(nums1)
         m = len(nums2)
 
-        if n == 0:
-            return self.compute_median(nums2, 0, m-1)[1]
-        if m == 0:
-            return self.compute_median(nums1m 0, n-1)[1]
-
-        # Starting index to search for the median index.
-        # start_index = 0
-        # Ending index to search for the median index.
-        # end_index = n + m - 1
-
-        return find_median_sorted_arrays(nums1, nums2, 0, n-1, 0, m-1)
-
-
-    def compute_median(self, nums, start_index, end_index):
-        """
-        Computes the index and value of the median of an input array.
-
-        Args:
-            nums - Array of integers in sorted order.
-
-        Returns:
-            Tuple consistig with the index and value of median.
-        """
-
-        k = len(start_index-end_index+1)
-
-        if k % 2 == 0:
-            median_index = start_index + int(k/2) - 1
-            # Divide by 2.0 to keep the median in float.
-            median_value = (nums[int(k/2)-1]+nums[int(k/2)]) / 2.0
-            return (median_index, median_value)
+        # when total length is odd, the median is the middle
+        if (n+m) % 2 != 0:
+            return self.find_ith_element(nums1, 0, n-1, nums2, 0, m-1, int((n+m)/2))
         else:
-            median_index = start_index + int(math.floor(k/2))
-            # Cast to int, just to make sure the index is integer.
-            median_value = nums[int(math.floor(k/2))]
-            return (median_index, median_value)
+        # when total length is even, the median is the average of the middle 2
+            middle1 = self.find_ith_element(nums1, 0, n-1, nums2, 0, m-1, int((n+m)/2))
+            middle2 = self.find_ith_element(nums1, 0, n-1, nums2, 0, m-1, int((n+m)/2)-1)
+            return (middle1 + middle2) / 2.0
+
+        # if n == 0:
+        #     return nums2[int(m/2)]
+        # if m == 0:
+        #     return nums1[int(n/2)]
 
 
-    def find_median_sorted_arrays(self, nums1, nums2, start_index1, end_index1, start_index2, end_index2):
+    def find_ith_element(self, nums1, start1, end1, nums2, start2, end2, i):
         """
         Find the median of two sorted arrays.
 
         Args:
             nums1 -- A sorted array.
-            nums2 -- A sorted array.
-            start_index1 -- The starting index to search for the median
+            start1 -- The starting index to search for the median
                 of the combined sorted array in nums1.
-            start_index2 -- The starting index to search for the median
+            end1 -- The ending index to search for the median
+                of the combined sorted array in nums1.
+            nums2 -- A sorted array.
+            start2 -- The starting index to search for the median
                 of the combined sorted array in nums2.
+            end2 -- The ending index to search for the median
+                of the combined sorted array in nums2.
+            i -- ith element to find.
 
         Returns:
-            The median of two sorted arrays (float)
+            The median of merged sorted arrays (float)
         """
 
         # Idea: merge two sorted arrays into one sorted array and
         # return element at the middle index.
 
-        n = len(end_index1-start_index1+1)
-        m = len(end_index2-start_index2+1)
+        # Example #1:
+        # [1,2,3,5,7] and [3,4,6,9,11]
+        # Merged: [1,2,3,3,4,5,6,7,9,11]
 
-        median_index1 = self.compute_median(nums1, start_index1, end_index1)[0]
-        median_value1 = self.compute_median(nums1, start_index1, end_index1)[1]
-        median_index2 = self.compute_median(nums2, start_index2, end_index2)[0]
-        median_vaule2 = self.compute_median(nums2, start_index2, end_index2)[1]
+        # [1,2,3,5,7] [3,4,6,9,11] i=5, 2+2=4 < 5
+        #  s       e   s       e
 
-        # This is corner case where everything on one side is bigger
-        # than everything on the other side.
-        if nums1[start_index1] >= nums2[end_index2]:
-            return self.compute_median(nums2+nums1, start_index2, end_index1)[1]
-        if nums2[start_index2] >= nums1[end_index1]:
-            return self.compute_median(nums1+nums2, start_index1, end_index2)[1]
+        # [1,2,3,5,7] [3,4,6,9,11] i=5, 3+1=4 < 5
+        #      s   e   s   e
 
-        # # If two medians are the same, then there will be exactly
-        # # (n/2)+(m/2) items on the left and right when two arrays are
-        # # merged in sorted way. This means medians in nums1 and num2
-        # # are also the median of the sorted merged array.
-        # if median_value1 == median_value2:
-        #     return median_value1
+        # [1,2,3,5,7] [3,4,6,9,11] i=5, 2+1=3 < 5
+        #      s e       s e
 
-        # Example:
+        # [1,2,3,5,7] [3,4,6,9,11] i=5, 2+1=3 < 5
+        #        v       v
 
-        # [1,2,3,5,7] med value 3 med index 2
-        #  s       e
-        # [1,2,3,5,7] med value 5 med index 3
-        #      s   e
-        # [1,2,3,5,7] med value 4 med index ?
-        #      s e
-        # [1,2,3,5,7] med value 4 med index 3
-        #        v
+        # [1,2,3,5,7] [3,4,6,9,11] i-start1=5-4=1, nums2[1]=4
+        #                x
 
-        # [3,4,6,9,11] med value 6 med index 2
-        #  s       e
-        # [3,4,6,9,11] med value 4 med index 1
-        #  s   e
-        # [3,4,6,9,11] med value 5 med index ?
-        #    s e
-        # [3,4,6,9,11] med value 5 med index 2
-        #    v
+        # Example #2:
+        # [2,7] and [1,3,4,5,6]
+        # Merged: [1,2,3,4,5,6,7]
 
-        # merged: [1,2,3,3,4,5,6,7,9,11] med value 4+5=4.5
+        # [2,7] [1,3,4,5,6] i=4, 0+2 < 4
+        #  s e   s       e
 
-        elif median_value1 < median_vaule2:
-            # Numbers less than smaller median must go.
-            if n % 2 == 0:
-                start_index1 = start_index1 + int(median_index1/2)
+        # [2,7] [1,3,4,5,6] i=4, 0+3 < 4
+        #  s e       s   e
+
+        # [2,7] [1,3,4,5,6] i-start1=4-1=3, nums2[]
+        #    v       s   e
+
+        # [2,7] [1,3,4,5,6] i=4, 1+3 == 4
+        #    v       s   e
+
+        if start1 > end1:
+            return nums2[i-start1]
+        if start2 > end2:
+            return nums1[i-start2]
+
+        mid1 = int((start1+end1)/2)
+        mid2 = int((start2+end2)/2)
+        mid1_val = nums1[mid1]
+        mid2_val = nums2[mid2]
+
+        if mid1 + mid2 < i:
+            # Median exists greater or equal than the smaller median and
+            # lesser or equal than the larger median.
+            if mid1_val < mid1_val:
+                return self.find_ith_element(nums1, mid1, end1, nums2, start2, mid2, i)
             else:
-                start_index1 = start_index1 + int(median_index1/2) + 1
-            # Numbers greater than the larger median must go.
-            if m % 2 == 0
-                end_index2 = end_index2 - median_index2 + 1
-            else:
-                end_index2 = end_index2 - median_index2
-
-            return self.find_median_sorted_arrays(nums1, nums2, start_index1, end_index1, start_index2, end_index2)
-
+                return self.find_ith_element(nums1, start1, mid1, nums2, mid2, end2, i)
         else:
-            # Numbers less than smaller median must go.
-            if m % 2 == 0:
-                start_index2 = start_index2 + median_index2 - 1
+            if mid1_val < mid2_val:
+                return self.find_ith_element(nums1, start1, end1, nums2, mid2, end2, i)
             else:
-                start_index2 = start_index2 + median_index2
-            # Numbers greater than the larger median must go.
-            if n % 2 == 0
-                end_index1 = end_index1 - median_index1 + 1
-            else:
-                end_index1 = end_index1 - median_index1
+                return self.find_ith_element(nums1, mid1, end1, nums2, start2, mid2, i)
 
-            return self.find_median_sorted_arrays(nums1, nums2, start_index1, end_index1, start_index2, end_index2)
 
 
