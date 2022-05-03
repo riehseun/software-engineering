@@ -8,106 +8,114 @@ import bisect
 
 class Leet4(object):
     def find_median_sorted_arrays(self, nums1, nums2):
-
-        n = len(nums1)
-        m = len(nums2)
-
-        # when total length is odd, the median is the middle
-        if (n+m) % 2 != 0:
-            return self.find_ith_element(nums1, 0, n-1, nums2, 0, m-1, int((n+m)/2))
-        else:
-        # when total length is even, the median is the average of the middle 2
-            middle1 = self.find_ith_element(nums1, 0, n-1, nums2, 0, m-1, int((n+m)/2))
-            middle2 = self.find_ith_element(nums1, 0, n-1, nums2, 0, m-1, int((n+m)/2)-1)
-            return (middle1 + middle2) / 2.0
-
-        # if n == 0:
-        #     return nums2[int(m/2)]
-        # if m == 0:
-        #     return nums1[int(n/2)]
-
-
-    def find_ith_element(self, nums1, start1, end1, nums2, start2, end2, i):
         """
-        Find the median of two sorted arrays.
+        Find the median element of two sorted arrays.
 
         Args:
             nums1 -- A sorted array.
-            start1 -- The starting index to search for the median
-                of the combined sorted array in nums1.
-            end1 -- The ending index to search for the median
-                of the combined sorted array in nums1.
             nums2 -- A sorted array.
-            start2 -- The starting index to search for the median
-                of the combined sorted array in nums2.
-            end2 -- The ending index to search for the median
-                of the combined sorted array in nums2.
-            i -- ith element to find.
 
         Returns:
             The median of merged sorted arrays (float)
         """
 
-        # Idea: merge two sorted arrays into one sorted array and
-        # return element at the middle index.
+        n = len(nums1)
+        m = len(nums2)
+
+        l = int((m+n+1)/2)
+        r = int((m+n+2)/2)
+        return (self.find_ith_element(nums1, 0, nums2, 0, l) \
+            + self.find_ith_element(nums1, 0, nums2, 0, r)) / 2.0
+
+
+    def find_ith_element(self, nums1, start1, nums2, start2, i):
+        """
+        Find ith element of two sorted arrays.
+
+        Args:
+            nums1 -- A sorted array.
+            start1 -- The starting index to search for the median
+                of the combined sorted array in nums1.
+            nums2 -- A sorted array.
+            start2 -- The starting index to search for the median
+                of the combined sorted array in nums2.
+            i -- ith element to find.
+
+        Returns:
+            The ith element of merged sorted arrays (float)
+        """
+
+        # Median cannot exists in numbers smaller than or equal to
+        # the smaller median.
 
         # Example #1:
-        # [1,2,3,5,7] and [3,4,6,9,11]
+        # [1,2,3,5,7] and [3,4,6,9,11] and i=5
         # Merged: [1,2,3,3,4,5,6,7,9,11]
 
-        # [1,2,3,5,7] [3,4,6,9,11] i=5, 2+2=4 < 5
-        #  s       e   s       e
+        # [1,2,3,5,7] [3,4,6,9,11] i=5
+        #  s           s
+        # mid1 = nums1[0+2-1=1] = 2
+        # mid2 = nums2[0+2-1=1] = 4
 
-        # [1,2,3,5,7] [3,4,6,9,11] i=5, 3+1=4 < 5
-        #      s   e   s   e
+        # [1,2,3,5,7] [3,4,6,9,11] i=3 (discarded 2 items)
+        #      s       s
+        # mid1 = nums1[2+1-1=2] = 3
+        # mid2 = nums2[0+1-1=0] = 3
 
-        # [1,2,3,5,7] [3,4,6,9,11] i=5, 2+1=3 < 5
-        #      s e       s e
+        # [1,2,3,5,7] [3,4,6,9,11] i=2 (discarded 1 item)
+        #      s         s
+        # mid1 = nums1[2+1-1=2] = 3
+        # mid2 = nums2[1+1-1=1] = 4
 
-        # [1,2,3,5,7] [3,4,6,9,11] i=5, 2+1=3 < 5
-        #        v       v
-
-        # [1,2,3,5,7] [3,4,6,9,11] i-start1=5-4=1, nums2[1]=4
-        #                x
+        # [1,2,3,5,7] [3,4,6,9,11] i=1
+        #        s       s
+        # min(5,4) = 4
 
         # Example #2:
-        # [2,7] and [1,3,4,5,6]
-        # Merged: [1,2,3,4,5,6,7]
+        # [1,3] and [2] and i=2
+        # merged: [1,2,3]
 
-        # [2,7] [1,3,4,5,6] i=4, 0+2 < 4
-        #  s e   s       e
+        # [1,3] [2] i=2
+        #  s     s
+        # mid1 = nums1[0+1-1=0] = 1
+        # mid2 = nums2[0+1-1=0] = 2
 
-        # [2,7] [1,3,4,5,6] i=4, 0+3 < 4
-        #  s e       s   e
+        # [1,3] [2] i=1 (discarded 1 item)
+        #    s   s
+        # min(3,2) = 2
 
-        # [2,7] [1,3,4,5,6] i-start1=4-1=3, nums2[]
-        #    v       s   e
+        n = len(nums1)
+        m = len(nums2)
 
-        # [2,7] [1,3,4,5,6] i=4, 1+3 == 4
-        #    v       s   e
+        # If all items are discarded from either one of the arrays, it
+        # means that array cannot contain the ith element (since all
+        # items are smaller than i). In that case, return ith item
+        # from the other array.
+        if start1 > n-1:
+            return nums2[start2+i-1]
+        if start2 > m-1:
+            return nums1[start1+i-1]
 
-        if start1 > end1:
-            return nums2[i-start1]
-        if start2 > end2:
-            return nums1[i-start2]
+        if i == 1:
+            return min(nums1[start1], nums2[start2])
 
-        mid1 = int((start1+end1)/2)
-        mid2 = int((start2+end2)/2)
-        mid1_val = nums1[mid1]
-        mid2_val = nums2[mid2]
+        mid1 = math.inf
+        mid2 = math.inf
+        if start1+i/2-1 < n:
+            mid1 = nums1[start1+int(i/2)-1]
+        if start2+i/2-1 < m:
+            mid2 = nums2[start2+int(i/2)-1]
 
-        if mid1 + mid2 < i:
-            # Median exists greater or equal than the smaller median and
-            # lesser or equal than the larger median.
-            if mid1_val < mid1_val:
-                return self.find_ith_element(nums1, mid1, end1, nums2, start2, mid2, i)
-            else:
-                return self.find_ith_element(nums1, start1, mid1, nums2, mid2, end2, i)
+        # Time: O(log(n+m)). We are rejecting i/2 element in each
+        # recursive tree.
+        # Space: O(1). Not allocating any extra space proportional to
+        # input size.
+        if mid1 < mid2:
+            # We are rejecting elements that are less than smaller
+            # median. We are adjusting i to find the original ith
+            # element accordingly.
+            return self.find_ith_element(
+                nums1, start1+int(i/2), nums2, start2, i-int(i/2))
         else:
-            if mid1_val < mid2_val:
-                return self.find_ith_element(nums1, start1, end1, nums2, mid2, end2, i)
-            else:
-                return self.find_ith_element(nums1, mid1, end1, nums2, start2, mid2, i)
-
-
-
+            return self.find_ith_element(
+                nums1, start1, nums2, start2+int(i/2), i-int(i/2))
