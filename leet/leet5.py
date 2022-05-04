@@ -2,10 +2,6 @@
 
 # https://leetcode.com/problems/longest-palindromic-substring/
 
-import math
-
-from leet9 import Leet9
-
 
 class Leet5(object):
     def longest_palindrome(self, s):
