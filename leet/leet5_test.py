@@ -9,7 +9,7 @@ class TestLeet5(unittest.TestCase):
 
     def test_is_palindrom_1(self):
         test = self.leet5.longest_palindrome("babad")
-        self.assertEqual(test, "aba")
+        self.assertEqual(test, "bab")
 
     def test_is_palindrom_2(self):
         test = self.leet5.longest_palindrome("cbbd")
@@ -27,9 +27,13 @@ class TestLeet5(unittest.TestCase):
         test = self.leet5.longest_palindrome("ccd")
         self.assertEqual(test, "cc")
 
-    def test_is_palindrom_5(self):
+    def test_is_palindrom_6(self):
         test = self.leet5.longest_palindrome("eabcb")
-        self.assertEqual(test, "cc")
+        self.assertEqual(test, "bcb")
+
+    def test_is_palindrom_7(self):
+        test = self.leet5.longest_palindrome("SQQSYYSQQS")
+        self.assertEqual(test, "SQQSYYSQQS")
 
 
 if __name__ == "__main__":

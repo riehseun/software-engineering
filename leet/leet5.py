@@ -19,56 +19,46 @@ class Leet5(object):
             The longest palindrome substring. (string)
         """
 
-        start_index = 0
-        end_index = len(s) - 1
-        turn_to_increase_start_index = True
+        longest_palindrome = ""
 
         # Time: O(n)
-        # Space:
+        # Space: O(1)
+        for i in range(len(s)):
+            # Example: "babad", "ccd" (odd case)
+            palindrome_odd = self.find_longest_palindrome(i, i, s)
+            # Example: "cbbd" (even case)
+            palindrome_even = self.find_longest_palindrome(i, i+1, s)
 
-        # eabcb
-        for length in range(len(s)):
+            if len(palindrome_odd) < len(palindrome_even):
+                palindrome = palindrome_even
+            else:
+                palindrome = palindrome_odd
 
+            if len(palindrome) > len(longest_palindrome):
+                longest_palindrome = palindrome
 
-
-        while end_index - start_index >= length:
-            if self.is_string_palindrome(s[start_index:end_index+1]):
-                return s[start_index:end_index+1]
-
-            if self.is_string_palindrome(s[start_index+1:end_index+1]):
-                return s[start_index+1:end_index+1]
-
-            if self.is_string_palindrome(s[start_index:end_index]):
-                return s[start_index:end_index]
-
-            start_index += 1
-            end_index -= 1
-
-            # if turn_to_increase_start_index:
-            #     start_index += 1
-            #     turn_to_increase_start_index = False
-            # else:
-            #     end_index -= 1
-            #     turn_to_increase_start_index = True
-
-        return ""
+        return longest_palindrome
 
 
-    def is_string_palindrome(self, s):
+    def find_longest_palindrome(self, a, b, s):
         """
-        Determine if the string in palindrome or not.
+        Find the longest palindrome substring who middle characters are
+        a and b. (either a = b or a = b+1)
 
         Args:
+            a -- An index postion of string s.
+            b -- An index postion of string s.
             s -- Input string
 
         Return:
-            True if s is palindrome. False otherwise.
+            The longest palindrome substring who middle characters are
+            a and b.
         """
 
-        # Time: O(n) to do string slicing.
-        # Space:
-        if s[::-1] == s:
-            return True
+        # Time: O(n/2)
+        # Space: O(1)
+        while a >= 0 and b < len(s) and s[a] == s[b]:
+            a -= 1
+            b += 1
 
-
-        return False
+        return s[a+1:b]
