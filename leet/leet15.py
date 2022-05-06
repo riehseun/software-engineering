@@ -27,14 +27,12 @@ class Leet15(object):
         # Sorted: [0,0,0]
         #          s   e
 
-        # [-4,-2,1,-5,-4,-4,4,-2,0,4,0,-2,3,1,-5,0]
-
         nums.sort()  # O(nlogn)
 
         for i in range(len(nums)):
             start = 0
             end = len(nums) - 1
-            while end > start:
+            while start < i and i < end:
                 # If the sum is less than zero, need to increment the
                 # start index to increase the sum.
                 if nums[i] + nums[start] + nums[end] < 0:
@@ -44,24 +42,17 @@ class Leet15(object):
                 elif nums[i] + nums[start] + nums[end] > 0:
                     end -= 1
                 else:
-                    print("i:"+str(nums[i]) + " start:"+str(nums[start]) + " end:"+str(nums[end]))
-                    if i != end and i != start:
-                        new = True
-                        for triplet in triplets:
-                            # Triplet already exists.
-                            if (nums[i] in triplet
-                                and nums[start] in triplet
-                                and nums[end] in triplet):
-                                new = False
-                        if new:
-                            print(str([nums[i],nums[start],nums[end]]))
-                            triplets.append([nums[i],nums[start],nums[end]])
+                    triplets.append([nums[i],nums[start],nums[end]])
+
+                    # We can increment either start or end.
                     if nums[start] <= nums[end]:
                         start += 1
                     else:
                         end -= 1
 
-            # start = 0
-            # end = len(nums) - 1
+        unique_triplets = []
+        for triplet in triplets:
+            if triplet not in unique_triplets:
+                unique_triplets.append(triplet)
 
-        return triplets
+        return unique_triplets
