@@ -6,6 +6,7 @@
 class Leet15(object):
     def three_sum(self, nums):
         """
+        Find unique sets of three intergers that sum to 0.
 
         Args:
             nums -- A list of integers.
@@ -29,6 +30,8 @@ class Leet15(object):
 
         nums.sort()  # O(nlogn)
 
+        # Time: O(n^2)
+        # Space: O(n) worst case, can append all possible combo into triplets.
         for i in range(len(nums)):
             start = 0
             end = len(nums) - 1
@@ -50,6 +53,8 @@ class Leet15(object):
                     else:
                         end -= 1
 
+        # Time: O(n)
+        # Space: O(n)
         unique_triplets = []
         for triplet in triplets:
             if triplet not in unique_triplets:
