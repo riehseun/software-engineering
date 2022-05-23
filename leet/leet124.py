@@ -26,6 +26,8 @@ class Leet124(object):
         # value while at the same time keeping track of tje maximum
         # possible sum of connected nodes from that node.
 
+        # Time: O(h) where h is the height of the tree.
+        # Space: O(n) where n is the number of nodes.
         max_sum = []
         self.subroutine(root, max_sum)
         return max(max_sum)
