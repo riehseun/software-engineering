@@ -3,38 +3,51 @@
 # https://leetcode.com/problems/merge-two-sorted-lists/
 
 
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
 class Leet21(object):
     def merge_two_lists(self, list1, list2):
         """
-        Merge two lists into a one sorted list.
+        Merge two linked lists into a one sorted linked list.
         Assume list1 and list2 are sorted in non-decreasing order.
 
         Args:
-            list1 -- A list of integers.
-            list2 -- A list of integers.
+            list1 -- A linked list of integers.
+            list2 -- A linked list of integers.
 
         Returns:
-            A sorted list.
+            A sorted linked list.
         """
 
-        if not list1:
-            return list2
-        if not list2:
-            return list1
+        # Example: [1,2,4], [1,3,4] => [1,1,2,3,4,4]
 
-        merged_list = []
+        list3 = ListNode()
+        temp = list3
 
-        # Iterate until either one of two lists is empty.
-        # Time: O(n) where n is combined number of elements in the two
-        # lists.
-        # Space: O(n) worst case is that n-1 can be appeneded to the
-        # merged list.
+        # Time: O(n) where n is the combined lenght of two linked lists.
+        # Space: O(1) no additional space allocated.
         while list1 and list2:
-            if list1[0] <= list2[0]:
-                merged_list.append(list1[0])  # O(1)
-                list1.remove(list1[0])  # O(1) list1 is sorted list.
+            if list1.val < list2.val:
+                print(list1.val)
+                list3.next = list1
+                list1 = list1.next
             else:
-                merged_list.append(list2[0])  # O(1)
-                list2.remove(list2[0])  # O(1) list2 is sorted list.
+                print(list2.val)
+                list3.next = list2
+                list2 = list2.next
+            list3 = list3.next
 
-        return merged_list + list1 + list2
+        if list1:
+            print(list1.val)
+            list3.next = list1
+        if list2:
+            print(list2.val)
+            list3.next = list2
+
+        # Returning list3.next will return the last node in the linked
+        # list we computed. To return the first node, we use temp.
+        return temp.next
