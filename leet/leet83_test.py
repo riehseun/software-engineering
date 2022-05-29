@@ -1,6 +1,7 @@
 import unittest
 
-from leet83 import Leet83, ListNode
+from leet83 import Leet83
+from listnode import ListNode
 
 
 class TestLeet83(unittest.TestCase):
