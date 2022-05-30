@@ -9,13 +9,13 @@ class TestLeet108(unittest.TestCase):
         self.leet108 = Leet108()
 
     def test_sorted_array_to_bst_1(self):
-        # node4 = TreeNode(7,None,None)
-        # node3 = TreeNode(15,None,None)
-        # node2 = TreeNode(20,node3,node4)
-        # node1 = TreeNode(9,None,None)
-        # root = TreeNode(3,node1,node2)
-        # test = self.leet108.sorted_array_to_bst([-10,-3,0,5,9])
-        # self.assertEqual(test, 3)
+        node5 = TreeNode(5,None,None)
+        node4 = TreeNode(-10,None,None)
+        node3 = TreeNode(9,node5,None)
+        node2 = TreeNode(-3,node4,None)
+        node1 = TreeNode(0,node2,node3)
+        test = self.leet108.sorted_array_to_bst([-10,-3,0,5,9])
+        self.assertEqual(test.val, 0)
 
 
 if __name__ == "__main__":

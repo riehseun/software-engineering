@@ -3,7 +3,7 @@
 # https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
 
 
-class Leet108(object):
+class Leet104(object):
     def max_depth(self, root):
         """
         Finds the max depth of a binary tree.
