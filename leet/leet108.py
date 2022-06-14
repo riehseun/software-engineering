@@ -34,5 +34,3 @@ class Leet108(object):
         node.right = self.sorted_array_to_bst(nums[mid+1:])
 
         return node
-
-
