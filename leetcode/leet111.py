@@ -17,6 +17,29 @@ class Leet111(object):
             Minimum depth of a tree.
         """
 
+        if not root:
+            return 0
+
+        # Time: O(n) where n is the number of nodes.
+        # Space: O(1)
+        return self.subroutine(root, 0)
 
 
-        return
+    def subroutine(self, node, depth):
+        """
+        Find the min depth of two subtrees of a node.
+
+        Args:
+            node -- TreeNode
+            min_depth -- keeps track of max depth
+
+        Returns:
+            The minimum depth.
+        """
+
+        if not node:
+            return depth
+
+        # Each time the recursive call is made, increase the depth by 1.
+        return min(self.subroutine(node.left, depth+1), \
+            self.subroutine(node.right, depth+1))
