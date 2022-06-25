@@ -21,6 +21,14 @@ class TestLeet10(unittest.TestCase):
 
     def test_is_match_4(self):
         test = self.leet10.is_match("aab", "c*a*b")
+        self.assertEqual(test, True)
+
+    def test_is_match_5(self):
+        test = self.leet10.is_match("mississippi", "mis*is*p*.")
+        self.assertEqual(test, False)
+
+    def test_is_match_6(self):
+        test = self.leet10.is_match("a", ".*..a*")
         self.assertEqual(test, False)
 
 
